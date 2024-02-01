@@ -1,5 +1,8 @@
 export default {
     Splash : 'Splash',
     Welcome : 'Welcome',
-    Login : 'Login'
+    Login : 'Login',
+    OtpEnter : 'OtpEnter',
+    AddBio : 'AddBio',
+    ChatScreen : 'ChatScreen',
 }

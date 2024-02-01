@@ -15,10 +15,10 @@ import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
 
 export default function Welcome() {
-    //onGetStarted
-    const onGetStarted = () => {
-        navigationservice.navigate(screenname.Login);
-    }
+  //onGetStarted
+  const onGetStarted = () => {
+    navigationservice.navigate(screenname.Login);
+  };
   return (
     <View style={styles.Container}>
       <StatusBar
@@ -30,13 +30,13 @@ export default function Welcome() {
         source={image.welcomescreen}
         style={[styles.Container, styles.alignItem]}>
         <View style={styles.Box1}>
-          <View style={{marginBottom : 30}}>
+          <View style={{marginBottom: 30}}>
             <View style={styles.RoundOfICon}>
               <Image source={image.cartoon} style={styles.icon} />
             </View>
             <Text style={styles.Title}>{i18n.Shori}</Text>
           </View>
-          <View style={{marginVertical : 10}}>
+          <View style={{marginVertical: 10}}>
             <Text style={styles.Title}>{i18n.WelcomeMichael}</Text>
             <Text style={styles.Description}>
               {i18n.WelcomeScreenDescription}
@@ -44,12 +44,10 @@ export default function Welcome() {
           </View>
         </View>
         <View style={styles.Box2}>
-            <Pressable style={styles.Button} onPress={() => onGetStarted()}>
-                <Text style={styles.ButtonName}>
-                    {i18n.GetStarted}
-                </Text>
-                <Image style={styles.rightArrow} source={image.rightarrow}/>
-            </Pressable>
+          <Pressable style={styles.Button} onPress={() => onGetStarted()}>
+            <Text style={styles.ButtonName}>{i18n.GetStarted}</Text>
+            <Image style={styles.rightArrow} source={image.rightarrow} />
+          </Pressable>
         </View>
       </ImageBackground>
     </View>
@@ -80,8 +78,8 @@ const styles = StyleSheet.create({
   },
   Box2: {
     flex: 1,
-    alignItems : 'center',
-    justifyContent  :'flex-end',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   icon: {
     height: 62,
@@ -96,31 +94,31 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: popnisfont.PoppinsRegular,
     color: 'white',
-    alignSelf  :"center",
-    textAlign  :'center',
-    letterSpacing : 1
+    alignSelf: 'center',
+    textAlign: 'center',
+    letterSpacing: 1,
     // marginVertical: 10,
   },
-  Button : {
-    height : 50,
-    width  :320,
-    marginBottom : 50,
-    alignSelf : 'center',
-    borderRadius : 10,
-    alignItems  :'center',
-    justifyContent  :'center',
-    borderColor  :'white',
-    borderWidth : 1,
-    flexDirection  :'row'
+  Button: {
+    height: 50,
+    width: 320,
+    marginBottom: 50,
+    alignSelf: 'center',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'white',
+    borderWidth: 1,
+    flexDirection: 'row',
   },
   ButtonName: {
     fontSize: 16,
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'white',
   },
-  rightArrow : {
-    height : 10,
-    width : 20,
-    marginLeft : 4
-  }
+  rightArrow: {
+    height: 10,
+    width: 20,
+    marginLeft: 4,
+  },
 });
