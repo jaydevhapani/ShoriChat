@@ -6,12 +6,13 @@ import { Callback } from '@react-native-async-storage/async-storage/lib/typescri
 
 interface PressableProps {
   buttonName?: string;
-  onPress?: Callback
+  onPress?: Callback;
+  buttonStyle?: any;
 }
 
 const ButtonComponent: React.FC<PressableProps> = props => {
   return (
-    <Pressable style={styles.Container} onPress={() => props.onPress && props.onPress()}>
+    <Pressable style={[styles.Container, props.buttonStyle && props.buttonStyle]} onPress={() => props.onPress && props.onPress()}>
       <Text style={styles.title}>{props.buttonName}</Text>
     </Pressable>
   );

@@ -2,10 +2,12 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   Pressable,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -13,6 +15,10 @@ import image from '../../assests/image';
 import i18n from '../../assests/i18n';
 import popnisfont from '../../assests/popnisfont';
 import commanStyle from '../../constant/commanStyle';
+import {Callback} from '@react-native-async-storage/async-storage/lib/typescript/types';
+import LockModal from '../../component/lockModal';
+import navigationservice from '../../navigation/navigationservice';
+import screenname from '../../navigation/screenname';
 
 //Dummy Details
 const ContactDetails = [
@@ -23,6 +29,8 @@ const ContactDetails = [
     isPin: true,
     messageCount: 4,
     time: '09:10 AM',
+    isDelete: false,
+    isLock: false,
   },
   {
     name: 'Hans Watson',
@@ -33,6 +41,8 @@ const ContactDetails = [
     isSend: true,
     isRead: false,
     time: '09:10 AM',
+    isDelete: false,
+    isLock: true,
   },
   {
     name: 'Hans Watson',
@@ -43,17 +53,45 @@ const ContactDetails = [
     isSend: true,
     isRead: true,
     time: '09:10 AM',
+    isDelete: false,
+    isLock: false,
   },
 ];
 const ChatScreen = () => {
   //state Of All Props
   const [state, setState] = useState({
+    ChatData: ContactDetails,
     isFilter: false,
+    isThreeDots: false,
+    isSearch: false,
+    searchText: '',
+    isLongPressForDelete: false,
+    isLockModal: false,
+    isLockChat: false,
   });
 
   //onStatePress
   const onStatePress = (key: string, value: any) => {
     setState(prev => ({...prev, [key]: value}));
+  };
+  //onDeleteChat
+  const onDeleteChat = (INDEX: number) => {
+    let NewArray = [...state.ChatData];
+    NewArray[INDEX].isDelete = NewArray[INDEX].isDelete == true ? false : true;
+    onStatePress('ChatData', NewArray);
+    if (NewArray.every(item => !item.isDelete)) {
+      onStatePress('isLongPressForDelete', false);
+    }
+  };
+
+  //doFalseAllSelectedData
+  const doFalseAllSelectedData = () => {
+    let NewArray = [...state.ChatData];
+    NewArray.forEach(item => {
+      item.isDelete = false;
+    });
+    onStatePress('ChatData', NewArray);
+    onStatePress('isLongPressForDelete', false);
   };
 
   return (
@@ -64,16 +102,89 @@ const ChatScreen = () => {
         translucent={true}
       />
       <View style={styles.HeaderBox}>
-        <HeaderOfChatScreen />
+        {!state.isSearch && !state.isLongPressForDelete && (
+          <HeaderOfChatScreen
+            onThreeDotsPress={() =>
+              onStatePress('isThreeDots', !state.isThreeDots)
+            }
+            onLockPress={() => onStatePress('isLockChat', true)}
+            onSearchPress={() => onStatePress('isSearch', !state.isSearch)}
+          />
+        )}
+        {state.isSearch && (
+          <View style={styles.SearchView}>
+            <Pressable
+              style={styles.backRound}
+              onPress={() => onStatePress('isSearch', !state.isSearch)}>
+              <Image source={image.backarrow} style={{height: 24, width: 24}} />
+            </Pressable>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                source={image.search}
+                style={{
+                  height: 24,
+                  width: 24,
+                  tintColor: 'black',
+                  marginLeft: 5,
+                }}
+              />
+              <TextInput
+                value={state.searchText}
+                onChange={e => onStatePress('searchText', e.nativeEvent.text)}
+                placeholder={i18n.Search}
+                style={styles.SearchInputView}
+              />
+            </View>
+          </View>
+        )}
+        {state.isLongPressForDelete && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: 14,
+              marginTop: 30,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Pressable onPress={() => doFalseAllSelectedData()}>
+                <Image
+                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  source={image.backarrow}
+                />
+              </Pressable>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: 'white',
+                  textAlignVertical: 'center',
+                  marginLeft: 10,
+                }}>
+                {state.ChatData.filter(item => item.isDelete).length}
+              </Text>
+            </View>
+            <Pressable>
+              <Image
+                style={{height: 24, width: 24, tintColor: 'white'}}
+                source={image.delete}
+              />
+            </Pressable>
+          </View>
+        )}
       </View>
       {/* Contact Details */}
-      <View style={commanStyle.ph14}>
+      <View>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 10,
             alignItems: 'center',
+            marginHorizontal: 14,
           }}>
           <Text style={styles.AllMessageText}>{i18n.AllMessages}</Text>
           <Pressable
@@ -90,11 +201,29 @@ const ChatScreen = () => {
         {/* AllContacts */}
         <View style={{marginTop: 20}} />
         <FlatList
-          data={ContactDetails}
+          data={state.ChatData}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <_MemorizedChatScreens index={index} item={item} key={index} />
+            <_MemorizedChatScreens
+              index={index}
+              item={item}
+              key={index}
+              onLongPress={INDEX => {
+                onDeleteChat(INDEX), onStatePress('isLongPressForDelete', true);
+              }}
+              onPress={ITEM => {
+                console.log(ITEM);
+
+                if (state.isLongPressForDelete) {
+                  onDeleteChat(ITEM?.index);
+                } else if (ITEM?.isLock) {
+                  onStatePress('isLockModal', true);
+                } else if (!ITEM?.isLock) {
+                  navigationservice.navigate(screenname.MessageScreen);
+                }
+              }}
+            />
           )}
         />
 
@@ -107,21 +236,59 @@ const ChatScreen = () => {
             <Text style={styles.FilterText}>{i18n.ShortbyName}</Text>
           </View>
         )}
+        {/* Position Setting */}
+        {state.isThreeDots && (
+          <Pressable
+            style={styles.SettingView}
+            onPress={() => navigationservice.navigate(screenname.ChatSetting)}>
+            <Image style={{height: 24, width: 24}} source={image.setting} />
+            <Text style={styles.FilterText}>{i18n.Setting}</Text>
+          </Pressable>
+        )}
       </View>
+      {state.isLockModal && (
+        <LockModal
+          onClosePress={() => onStatePress('isLockModal', false)}
+          isLockingChat={false}
+        />
+      )}
+      {state.isLockChat && (
+        <LockModal
+          onClosePress={() => onStatePress('isLockChat', false)}
+          isLockingChat={true}
+        />
+      )}
     </View>
   );
 };
 
 //ShowAllChats
 interface ChatProps {
-  item?: any;
-  index?: number;
+  item: any;
+  index: number;
+  onLongPress(index: number): void;
+  onPress(item: any): void;
 }
 export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
   return (
-    <View key={props.index} style={styles.ChatBox}>
+    <Pressable
+      key={props.index}
+      style={[
+        styles.ChatBox,
+        props.item.isDelete && {backgroundColor: '#F0F1F4'},
+      ]}
+      onLongPress={() => props.onLongPress(props.index)}
+      onPress={() =>
+        props.onPress({isLock: props.item.isLock, index: props.index})
+      }>
       <View style={{flex: 0.2}}>
-        <View style={styles.Profile}></View>
+        <View style={styles.Profile}>
+          {props.item.isDelete && (
+            <View>
+              <Image source={image.rightMark} style={{height: 30, width: 30}} />
+            </View>
+          )}
+        </View>
         <View
           style={[
             styles.Online,
@@ -160,11 +327,15 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
           <Text style={styles.Time}>{props.item.time}</Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 });
 
-interface HeaderProps {}
+interface HeaderProps {
+  onThreeDotsPress: Callback;
+  onSearchPress: Callback;
+  onLockPress: Callback;
+}
 const HeaderOfChatScreen = (props: HeaderProps) => {
   return (
     <View style={styles.HeaderView}>
@@ -175,13 +346,15 @@ const HeaderOfChatScreen = (props: HeaderProps) => {
         <Text style={styles.ShoriText}>{i18n.Shori}</Text>
       </View>
       <View style={{flexDirection: 'row'}}>
-        <Pressable>
+        <Pressable onPress={() => props.onSearchPress()}>
           <Image source={image.search} style={{height: 24, width: 24}} />
         </Pressable>
-        <Pressable style={{marginHorizontal: 14}}>
+        <Pressable
+          onPress={() => props.onLockPress()}
+          style={{marginHorizontal: 10}}>
           <Image source={image.lock} style={{height: 24, width: 24}} />
         </Pressable>
-        <Pressable>
+        <Pressable onPress={() => props.onThreeDotsPress()}>
           <Image source={image.threedots} style={{height: 24, width: 24}} />
         </Pressable>
       </View>
@@ -197,7 +370,7 @@ const styles = StyleSheet.create({
   },
   HeaderBox: {
     height: 140,
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 40,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
     backgroundColor: '#5A5FEA',
@@ -274,13 +447,14 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   ChatBox: {
-    height: 70,
+    height: 90,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 14,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
+    paddingHorizontal: 14,
   },
   userName: {
     fontSize: 16,
@@ -311,12 +485,52 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     ...commanStyle.boxShadow,
     right: 50,
-    top: StatusBar.currentHeight,
+    top: Platform.OS == 'android' ? StatusBar.currentHeight : 40,
   },
   FilterText: {
     fontSize: 16,
     color: 'black',
     margin: 6,
     fontFamily: popnisfont.PoppinsRegular,
+  },
+  SettingView: {
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 12,
+    position: 'absolute',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    ...commanStyle.boxShadow,
+    right: 20,
+    top: -30,
+  },
+  SearchView: {
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+    width: '90%',
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#D8E0F1',
+    paddingHorizontal: 10,
+  },
+  backRound: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#5A5FEA25',
+  },
+  SearchInputView: {
+    height: 40,
+    width: '80%',
+    paddingLeft: 10,
+    fontSize: 14,
   },
 });

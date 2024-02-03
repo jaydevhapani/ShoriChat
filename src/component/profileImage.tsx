@@ -4,11 +4,13 @@ import image from '../assests/image';
 
 interface Props {
   isCapture?: boolean;
+  viewStyle?: any;
+
 }
 
 export default function ProfileImage(props: Props) {
   return (
-    <View style={styles.Container}>
+    <View style={[styles.Container, props.viewStyle]}>
       {props.isCapture && (
         <View style={styles.ImageCapture}>
           <Image source={image.camera} style={styles.Icon} />
