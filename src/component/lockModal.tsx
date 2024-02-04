@@ -6,6 +6,7 @@ import i18n from '../assests/i18n';
 import popnisfont from '../assests/popnisfont';
 import OtpInputs from 'react-native-otp-inputs';
 import ButtonComponent from './buttonComponent';
+import RnLockSwitch from './RnLockSwitch';
 
 interface ModalProps {
   onClosePress: Callback;
@@ -61,6 +62,9 @@ const LockModal = (props: ModalProps) => {
           {props.isLockingChat && (
             <>
               <Text style={styles.UnLockText}>{i18n.Lockingchats}</Text>
+              <View style={{marginTop: 20}}>
+                <RnLockSwitch />
+              </View>
             </>
           )}
         </View>

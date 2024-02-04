@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   ImageBackground,
   KeyboardAvoidingView,
@@ -11,7 +12,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import commanStyle from '../../constant/commanStyle';
 import {Callback} from '@react-native-async-storage/async-storage/lib/typescript/types';
 import image from '../../assests/image';
@@ -19,17 +20,74 @@ import popnisfont from '../../assests/popnisfont';
 import i18n from '../../assests/i18n';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
+import {Swipeable} from 'react-native-gesture-handler';
+import DeleteModal from '../../component/deleteModal';
+
+const dummyMessage = [
+  {
+    message: 'When is the Design System event?',
+    reaction: '😊',
+    isSender: false,
+    time: '09:18 AM',
+    isLongPressForMessage: false,
+  },
+  {
+    message: 'It’s on this Weekend, 12 Jan, 2024. Are you attending?',
+    reaction: '😊',
+    isSender: true,
+    time: '09:18 AM',
+    isLongPressForMessage: false,
+  },
+  {
+    message: 'hey',
+    reaction: '😊',
+    isSender: false,
+    time: '09:18 AM',
+    isLongPressForMessage: false,
+  },
+];
 
 export default function MessageScreen() {
   //State
   const [state, setState] = useState({
     messageText: '',
     isThreeDots: false,
+    isMessageThreeDots: false,
+    messageClickIndex: 0,
+    isLongPressForMessage: false,
+    messageData: dummyMessage,
+    isSelectedDeleteMessage: false,
+    isAllDeleteMessage: false,
+    ReplayMessage: undefined,
+    isReplayOrEditReset: false,
   });
   //onStatePress
   const onStatePress = (key: string, value: any) => {
     setState(prev => ({...prev, [key]: value}));
   };
+  const flatListRef = useRef<FlatList<any>>(null);
+
+  //onSelectMultiPleMessage
+  const onSelectMultiPleMessage = (INDEX: number) => {
+    let NewArray = [...state.messageData];
+    NewArray[INDEX].isLongPressForMessage =
+      NewArray[INDEX].isLongPressForMessage == true ? false : true;
+    onStatePress('messageData', NewArray);
+    if (NewArray.every(item => !item.isLongPressForMessage)) {
+      onStatePress('isLongPressForMessage', false);
+    }
+  };
+
+  //doFalseAllSelectedData
+  const doFalseAllSelectedData = () => {
+    let NewArray = [...state.messageData];
+    NewArray.forEach(item => {
+      item.isLongPressForMessage = false;
+    });
+    onStatePress('messageData', NewArray);
+    onStatePress('isLongPressForMessage', false);
+  };
+
   return (
     <ImageBackground style={[commanStyle.flex]} source={image.chatbackground}>
       <StatusBar
@@ -38,31 +96,150 @@ export default function MessageScreen() {
         translucent={true}
       />
       <View style={styles.HeaderBox}>
-        <HeaderOfChatScreen
-          onThreeDots={() => onStatePress('isThreeDots', !state.isThreeDots)}
-        />
+        {!state.isLongPressForMessage && (
+          <HeaderOfChatScreen
+            onThreeDots={() => onStatePress('isThreeDots', !state.isThreeDots)}
+          />
+        )}
+
+        {state.isLongPressForMessage && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: 14,
+              marginTop: 30,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Pressable onPress={() => doFalseAllSelectedData()}>
+                <Image
+                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  source={image.backarrow}
+                />
+              </Pressable>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: 'white',
+                  textAlignVertical: 'center',
+                  marginLeft: 10,
+                }}>
+                {
+                  state.messageData.filter(item => item.isLongPressForMessage)
+                    .length
+                }
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                onPress={() =>
+                  onStatePress(
+                    'isSelectedDeleteMessage',
+                    !state.isSelectedDeleteMessage,
+                  )
+                }>
+                <Image
+                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  source={image.delete}
+                />
+              </Pressable>
+              <Pressable style={{marginHorizontal: 10}}>
+                <Image
+                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  source={image.star}
+                />
+              </Pressable>
+              <Pressable>
+                <Image
+                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  source={image.filemanager}
+                />
+              </Pressable>
+            </View>
+          </View>
+        )}
       </View>
       <View style={commanStyle.flex}>
-        <ScrollView
-          style={commanStyle.flex}
-          showsVerticalScrollIndicator={false}>
-          <Text>soidfhjsiojo</Text>
-        </ScrollView>
+        <View style={{flex: 1, paddingVertical: 20}}>
+          <FlatList
+            data={state.messageData}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            // inverted
+            renderItem={({item, index}) => (
+              <_MemoRizedMessagesComponent
+                item={item}
+                index={index}
+                onThreesDots={value => {
+                  onStatePress('isMessageThreeDots', !state.isMessageThreeDots);
+                  onStatePress('messageClickIndex', value.index);
+                }}
+                onLongPress={value => {
+                  onSelectMultiPleMessage(value.index),
+                    onStatePress('isLongPressForMessage', true);
+                }}
+                onPress={value => {
+                  if (state.isLongPressForMessage) {
+                    onSelectMultiPleMessage(value.index);
+                  }
+                }}
+                onLeftSwipe={value => {
+                  onStatePress('ReplayMessage', value?.message),
+                    onStatePress('isReplayOrEditReset', false);
+                }}
+                onRightSwipe={value => {
+                  onStatePress('ReplayMessage', value?.message),
+                    onStatePress('isReplayOrEditReset', false);
+                }}
+                isReplayOrEditReset={state.isReplayOrEditReset}
+              />
+            )}
+            ref={flatListRef}
+          />
+        </View>
+
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View style={styles.ChatBox}>
-            <TextInput
-              value={state.messageText}
-              onChange={e => {}}
-              placeholder={'Type here...'}
-              style={styles.SearchInputView}
-            />
-            <View style={styles.sendIcon}>
-              <Image
-                style={{height: 24, width: 24}}
-                source={image.sendmessage}
+            {state.ReplayMessage && (
+              <View style={styles.replayBox}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontFamily: popnisfont.PoppinsRegular,
+                    color: 'black',
+                  }}
+                  numberOfLines={4}>
+                  {state.ReplayMessage}
+                </Text>
+                <Pressable
+                  onPress={() => {
+                    onStatePress('ReplayMessage', undefined),
+                      onStatePress('isReplayOrEditReset', true);
+                  }}>
+                  <Image source={image.close} style={{height: 24, width: 24}} />
+                </Pressable>
+              </View>
+            )}
+            <View style={{flexDirection: 'row'}}>
+              <TextInput
+                value={state.messageText}
+                onChange={e => {}}
+                placeholder={'Type here...'}
+                style={styles.SearchInputView}
               />
+              <View style={styles.sendIcon}>
+                <Image
+                  style={{height: 24, width: 24}}
+                  source={image.sendmessage}
+                />
+              </View>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -84,13 +261,17 @@ export default function MessageScreen() {
             />
             <Text style={styles.FilterText}>{i18n.StarredMessage}</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Pressable
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() =>
+              onStatePress('isAllDeleteMessage', !state.isAllDeleteMessage)
+            }>
             <Image
               style={{height: 24, width: 24, tintColor: 'black'}}
               source={image.delete}
             />
             <Text style={styles.FilterText}>{i18n.DeleteMessage}</Text>
-          </View>
+          </Pressable>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
               style={{height: 24, width: 24, tintColor: 'black'}}
@@ -99,6 +280,38 @@ export default function MessageScreen() {
             <Text style={styles.FilterText}>{i18n.Clearchat}</Text>
           </View>
         </View>
+      )}
+      {/* {state.isMessageThreeDots && (
+        <View
+          style={[
+            styles.ThreeDotsBox,
+            {
+              top: 0,
+            },
+          ]}>
+          <Text style={styles.ThreeDotsText}>{i18n.Shortbydate}</Text>
+          <Text style={styles.ThreeDotsText}>{i18n.ShortbyUnread}</Text>
+          <Text style={styles.ThreeDotsText}>{i18n.ShortbyLatest}</Text>
+        </View>
+      )} */}
+      {state.isSelectedDeleteMessage && (
+        <DeleteModal
+          onClosePress={() =>
+            onStatePress(
+              'isSelectedDeleteMessage',
+              !state.isSelectedDeleteMessage,
+            )
+          }
+          isMultipleMessage={false}
+        />
+      )}
+      {state.isAllDeleteMessage && (
+        <DeleteModal
+          onClosePress={() =>
+            onStatePress('isAllDeleteMessage', !state.isAllDeleteMessage)
+          }
+          isMultipleMessage={true}
+        />
       )}
     </ImageBackground>
   );
@@ -147,6 +360,148 @@ const HeaderOfChatScreen = (props: HeaderProps) => {
   );
 };
 
+//_MemoRized All Messages
+interface MessageProps {
+  onRightSwipe?(value: any): void;
+  onLeftSwipe?(value: any): void;
+  onPress?(value: any): void;
+  onLongPress?(value: any): void;
+  onThreesDots?(value: any): void;
+  onEditClick?(value: any): void;
+  item: any;
+  index: number;
+  onLayOut?(value: any): void;
+  isReplayOrEditReset?: boolean;
+}
+const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
+  //reset swipple
+  const swipeableRef = useRef<Swipeable>(null);
+  useEffect(() => {
+    if (data.isReplayOrEditReset) {
+      swipeableRef.current && swipeableRef.current.close();
+    }
+  }, [data.isReplayOrEditReset]);
+  return (
+    <Swipeable
+      ref={swipeableRef}
+      onSwipeableOpen={direction => {
+        if (direction == 'right') {
+          data.onRightSwipe &&
+            data.onRightSwipe({...data.item, index: data.index});
+        }
+        if (direction == 'left') {
+          data.onLeftSwipe &&
+            data.onLeftSwipe({...data.item, index: data.index});
+        }
+      }}
+      renderRightActions={() => (
+        <View>
+          <Text style={{color: 'transparent'}}>ok</Text>
+        </View>
+      )}
+      renderLeftActions={() => (
+        <View>
+          <Text style={{color: 'transparent'}}>ok</Text>
+        </View>
+      )}>
+      <Pressable
+        onLayout={event =>
+          data.onLayOut && data.onLayOut({...event, index: data.index})
+        }
+        style={[
+          data.item.isSender
+            ? styles.MessageViewStyleSender
+            : styles.MessageViewStyleReceiver,
+          data.item.reaction && {
+            paddingBottom: 14,
+          },
+          data.item.isLongPressForMessage && {
+            backgroundColor: '#00000020',
+          },
+        ]}
+        onLongPress={() =>
+          data.onLongPress &&
+          data.onLongPress({...data.item, index: data.index})
+        }
+        onPress={() => {
+          swipeableRef.current && swipeableRef.current.close(),
+            data.onPress && data.onPress({...data.item, index: data.index});
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {data.item.isSender && (
+            <Pressable
+              onPress={() =>
+                data.onThreesDots &&
+                data.onThreesDots({...data.item, index: data.index})
+              }>
+              <Image
+                source={image.threedots}
+                style={{height: 20, width: 20, tintColor: '#5A5FEA'}}
+              />
+            </Pressable>
+          )}
+          <View
+            style={[
+              data.item.isSender
+                ? styles.MessageSenderChildView
+                : styles.MessageReceiverChildView,
+            ]}>
+            <Text
+              style={[
+                data.item.isSender
+                  ? styles.SenderMessageText
+                  : styles.ReceiverMessageText,
+              ]}>
+              {data.item.message}
+            </Text>
+            <Text
+              style={[
+                {
+                  alignSelf: 'flex-end',
+                  fontSize: 10,
+                  fontFamily: popnisfont.PoppinsRegular,
+                  color: 'black',
+                },
+                data.item.reaction && data.item.isSender && {marginBottom: 4},
+              ]}>
+              {data.item.time}
+            </Text>
+          </View>
+          {!data.item.isSender && (
+            <Pressable
+              onPress={() =>
+                data.onThreesDots &&
+                data.onThreesDots({...data.item, index: data.index})
+              }>
+              <Image
+                source={image.threedots}
+                style={{height: 20, width: 20, tintColor: '#5A5FEA'}}
+              />
+            </Pressable>
+          )}
+        </View>
+        {data.item.reaction && (
+          <View
+            style={[
+              styles.ReactionRound,
+              data.item.isSender
+                ? {
+                    right: 20,
+                    bottom: 1,
+                  }
+                : {
+                    left: 20,
+                    bottom: 1,
+                  },
+            ]}>
+            <Text style={{color: 'pink'}}>{data.item.reaction}</Text>
+          </View>
+        )}
+      </Pressable>
+    </Swipeable>
+  );
+});
+
 const styles = StyleSheet.create({
   HeaderBox: {
     height: 140,
@@ -154,6 +509,18 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
     backgroundColor: '#5A5FEA',
+  },
+  replayBox: {
+    // height : 50,
+    paddingVertical: 20,
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 50,
+    width: '94%',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    backgroundColor: '#B0B0B025',
   },
   HeaderView: {
     height: 50,
@@ -194,17 +561,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   ChatBox: {
-    height: 64,
+    // height: 64,
+    paddingVertical: 6,
     width: 390,
     borderWidth: 1,
     borderRadius: 32,
     borderColor: '#D8E0F1',
-    flexDirection: 'row',
-    alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: 'white',
     marginBottom: 16,
-    paddingHorizontal: 10,
+    paddingHorizontal: 6,
   },
   SearchInputView: {
     height: 40,
@@ -231,10 +597,84 @@ const styles = StyleSheet.create({
     right: 20,
     top: Platform.OS == 'android' ? StatusBar.currentHeight + 60 : 110,
   },
+  ThreeDotsBox: {
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    borderRadius: 8,
+    position: 'absolute',
+    backgroundColor: 'white',
+    ...commanStyle.boxShadow,
+    zIndex: 99999,
+  },
+  ThreeDotsText: {
+    fontSize: 10,
+    color: 'black',
+    margin: 2,
+    fontFamily: popnisfont.PoppinsRegular,
+  },
   FilterText: {
     fontSize: 16,
     color: 'black',
     margin: 6,
     fontFamily: popnisfont.PoppinsRegular,
+  },
+  MessageViewStyleSender: {
+    paddingHorizontal: 14,
+    marginVertical: 10,
+    alignItems: 'flex-end',
+  },
+  MessageViewStyleReceiver: {
+    paddingHorizontal: 14,
+    marginVertical: 10,
+    alignItems: 'flex-start',
+  },
+  MessageSenderChildView: {
+    backgroundColor: '#246BFD50',
+    borderTopLeftRadius: 16,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    maxWidth: 310,
+  },
+  MessageReceiverChildView: {
+    backgroundColor: 'white',
+    borderTopRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    maxWidth: 310,
+  },
+  SenderMessageText: {
+    fontFamily: popnisfont.PoppinsRegular,
+    fontSize: 16,
+    color: 'black',
+  },
+  ReceiverMessageText: {
+    fontFamily: popnisfont.PoppinsRegular,
+    fontSize: 16,
+    color: 'black',
+  },
+  ReactionRound: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
 });

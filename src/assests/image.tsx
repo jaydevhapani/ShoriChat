@@ -30,4 +30,5 @@ export default {
     report : require('./image/report.png'),
     graydelete : require('./image/graydelete.png'),
     block : require('./image/block.png'),
+    openlock : require('./image/openlock.png'),
 }

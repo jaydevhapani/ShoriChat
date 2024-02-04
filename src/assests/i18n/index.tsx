@@ -48,5 +48,10 @@ export default {
     Report   : 'Report',
     Block  : 'Block',
     Delete : 'Delete',
-
+    Aresuretodeletemessage : 'Are sure to delete message?',
+    Deleteforme : 'Delete for me',
+    Yes : 'Yes',
+    No : 'No',
+    From  :'From',
+    To : 'To'
 }
