@@ -4,7 +4,7 @@ export default StyleSheet.create({
   Container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop : Platform.OS == 'android' ?StatusBar.currentHeight : 0
+    paddingTop : Platform.OS == 'android' ? 40 : 0
   },
   flex: {
     flex : 1

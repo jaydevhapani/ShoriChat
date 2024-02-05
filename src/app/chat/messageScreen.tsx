@@ -504,10 +504,10 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
 
 const styles = StyleSheet.create({
   HeaderBox: {
-    height: 140,
-    paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 40,
-    borderBottomRightRadius: 24,
-    borderBottomLeftRadius: 24,
+    height: 120,
+    paddingTop: 50,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
     backgroundColor: '#5A5FEA',
   },
   replayBox: {
@@ -563,13 +563,13 @@ const styles = StyleSheet.create({
   ChatBox: {
     // height: 64,
     paddingVertical: 6,
-    width: 390,
+    width: '92%',
     borderWidth: 1,
     borderRadius: 32,
     borderColor: '#D8E0F1',
     alignSelf: 'center',
     backgroundColor: 'white',
-    marginBottom: 16,
+    marginBottom: 30,
     paddingHorizontal: 6,
   },
   SearchInputView: {
@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     ...commanStyle.boxShadow,
     right: 20,
-    top: Platform.OS == 'android' ? StatusBar.currentHeight + 60 : 110,
+    top: 110,
   },
   ThreeDotsBox: {
     justifyContent: 'center',

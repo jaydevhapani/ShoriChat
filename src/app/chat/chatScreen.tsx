@@ -369,10 +369,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   HeaderBox: {
-    height: 140,
-    paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 40,
-    borderBottomRightRadius: 24,
-    borderBottomLeftRadius: 24,
+    height: 120,
+    paddingTop: 50,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
     backgroundColor: '#5A5FEA',
   },
   HeaderView: {
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     ...commanStyle.boxShadow,
     right: 50,
-    top: Platform.OS == 'android' ? StatusBar.currentHeight : 40,
+    top: 40,
   },
   FilterText: {
     fontSize: 16,
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 25,
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 10,
     borderWidth: 1,
     borderColor: '#D8E0F1',
     paddingHorizontal: 10,
