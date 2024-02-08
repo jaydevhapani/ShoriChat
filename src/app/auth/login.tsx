@@ -1,9 +1,11 @@
 import {
   Image,
+  Keyboard,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -15,68 +17,87 @@ import HeaderTeam from '../../component/headerTeam';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
 import popnisfont from '../../assests/popnisfont';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../../constant';
+import image from '../../assests/image';
 
 export default function Login() {
   const [number, setNumber] = useState<string>('');
   return (
     <SafeAreaView style={commanStyle.Container}>
       <AuthHeader />
-      <View style={[commanStyle.flex, commanStyle.ph14]}>
-        <HeaderTeam
-          title={i18n.EnterPhoneNumber}
-          description={i18n.LoginDescription}
-        />
-        <View style={styles.writeView}>
-          <View style={styles.selectView}></View>
-          <View style={styles.InputView}>
-            <TextInput
-              style={styles.TextInput}
-              value={number}
-              keyboardType="number-pad"
-              maxLength={10}
-              placeholder="+91"
-              placeholderTextColor={'black'}
-              onChange={e => setNumber(e.nativeEvent.text)}
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={[commanStyle.flex, commanStyle.ph14]}>
+          <HeaderTeam
+            title={i18n.EnterPhoneNumber}
+            description={i18n.LoginDescription}
+          />
+          <View style={styles.writeView}>
+            <View style={styles.selectView}>
+              <Image
+                source={image.Flag}
+                style={{height: heightPixel(44), width: heightPixel(44)}}
+              />
+              <Image
+                source={image.CountySelect}
+                style={{height: heightPixel(10), width: heightPixel(16)}}
+              />
+            </View>
+            <View style={styles.InputView}>
+              <TextInput
+                style={styles.TextInput}
+                value={number}
+                keyboardType="number-pad"
+                maxLength={10}
+                placeholder="+91"
+                placeholderTextColor={'black'}
+                onChange={e => setNumber(e.nativeEvent.text)}
+              />
+            </View>
+          </View>
+          <View>
+            <ButtonComponent
+              buttonName={i18n.SendOtp}
+              onPress={() => navigationservice.navigate(screenname.OtpEnter)}
             />
           </View>
-        </View>
-        <View style={{alignSelf: 'center', marginTop: 50}}>
-          <ButtonComponent
-            buttonName={i18n.SendOtp}
-            onPress={() => {
-              navigationservice.navigate(screenname.OtpEnter);
-            }}
-          />
-        </View>
-        <View
-          style={{
-            height: '40%',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 16,
-              fontFamily: popnisfont.PoppinsRegular,
-            }}>
-            Read Our{' '}
-            <Text
+          <View style={styles.ConditionsView}>
+            <View
               style={{
-                color: '#5A5FEA',
+                height: 'auto',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
               }}>
-              Privacy Policy
-            </Text>{' '}
-            Tab Agree & Continue To accept the{' '}
-            <Text
-              style={{
-                color: '#5A5FEA',
-              }}>
-              Terms Of Service
-            </Text>
-          </Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: fontPixel(14),
+                  fontFamily: popnisfont.PoppinsRegular,
+                }}>
+                Read Our{' '}
+                <Text
+                  style={{
+                    color: '#5A5FEA',
+                  }}>
+                  Privacy Policy
+                </Text>{' '}
+                Tab Agree & Continue To accept the{' '}
+                <Text
+                  style={{
+                    color: '#5A5FEA',
+                  }}>
+                  Terms Of Service
+                </Text>
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
@@ -84,33 +105,44 @@ export default function Login() {
 const styles = StyleSheet.create({
   writeView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: pixelSizeVertical(36),
+    flex: 1,
+  },
+  ConditionsView: {
+    flex: 2.5,
+    marginBottom: pixelSizeVertical(40),
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   selectView: {
-    height: 60,
-    width: 90,
+    height: heightPixel(70),
+    width: widthPixel(84),
     borderWidth: 1,
     borderColor: '#D8E0F1',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: heightPixel(16),
     ...commanStyle.boxShadow,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: pixelSizeHorizontal(10),
   },
   InputView: {
-    height: 60,
-    width: '74%',
+    height: heightPixel(70),
+    width: widthPixel(279),
     borderWidth: 1,
     borderColor: '#D8E0F1',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: heightPixel(16),
     justifyContent: 'center',
     ...commanStyle.boxShadow,
   },
   TextInput: {
-    height: 50,
+    height: heightPixel(60),
     backgroundColor: 'white',
-    borderRadius: 8,
-    paddingHorizontal: 10,
+    borderRadius: heightPixel(16),
+    paddingHorizontal: pixelSizeHorizontal(10),
   },
 });

@@ -19,6 +19,13 @@ import {Callback} from '@react-native-async-storage/async-storage/lib/typescript
 import LockModal from '../../component/lockModal';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../../constant';
 
 //Dummy Details
 const ContactDetails = [
@@ -27,7 +34,7 @@ const ContactDetails = [
     isOnline: true,
     lastMessage: 'When is the Design System event?',
     isPin: true,
-    messageCount: 4,
+    messageCount: 1,
     time: '09:10 AM',
     isDelete: false,
     isLock: false,
@@ -35,9 +42,10 @@ const ContactDetails = [
   {
     name: 'Hans Watson',
     isOnline: false,
-    lastMessage: 'Yes, I purchased it yesterday',
+    lastMessage:
+      'Yes, I purchased it yesterday , so how are you , all about your job is ok?',
     isPin: true,
-    messageCount: 4,
+    messageCount: 2,
     isSend: true,
     isRead: false,
     time: '09:10 AM',
@@ -49,7 +57,7 @@ const ContactDetails = [
     isOnline: false,
     lastMessage: 'Yes, I purchased it yesterday',
     isPin: true,
-    messageCount: 4,
+    messageCount: 10,
     isSend: true,
     isRead: true,
     time: '09:10 AM',
@@ -116,16 +124,19 @@ const ChatScreen = () => {
             <Pressable
               style={styles.backRound}
               onPress={() => onStatePress('isSearch', !state.isSearch)}>
-              <Image source={image.backarrow} style={{height: 24, width: 24}} />
+              <Image
+                source={image.backarrow}
+                style={{height: heightPixel(24), width: heightPixel(24)}}
+              />
             </Pressable>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 source={image.search}
                 style={{
-                  height: 24,
-                  width: 24,
+                  height: heightPixel(24),
+                  width: heightPixel(24),
                   tintColor: 'black',
-                  marginLeft: 5,
+                  marginLeft: pixelSizeHorizontal(5),
                 }}
               />
               <TextInput
@@ -143,8 +154,7 @@ const ChatScreen = () => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 14,
-              marginTop: 30,
+              paddingHorizontal: pixelSizeHorizontal(14),
             }}>
             <View
               style={{
@@ -153,23 +163,31 @@ const ChatScreen = () => {
               }}>
               <Pressable onPress={() => doFalseAllSelectedData()}>
                 <Image
-                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  style={{
+                    height: heightPixel(24),
+                    width: heightPixel(24),
+                    tintColor: 'white',
+                  }}
                   source={image.backarrow}
                 />
               </Pressable>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: heightPixel(18),
                   color: 'white',
                   textAlignVertical: 'center',
-                  marginLeft: 10,
+                  marginLeft: pixelSizeHorizontal(10),
                 }}>
                 {state.ChatData.filter(item => item.isDelete).length}
               </Text>
             </View>
             <Pressable>
               <Image
-                style={{height: 24, width: 24, tintColor: 'white'}}
+                style={{
+                  height: heightPixel(24),
+                  width: heightPixel(24),
+                  tintColor: 'white',
+                }}
                 source={image.delete}
               />
             </Pressable>
@@ -177,14 +195,12 @@ const ChatScreen = () => {
         )}
       </View>
       {/* Contact Details */}
-      <View>
+      <View style={[commanStyle.ph14, {marginTop: pixelSizeVertical(20)}]}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 10,
             alignItems: 'center',
-            marginHorizontal: 14,
           }}>
           <Text style={styles.AllMessageText}>{i18n.AllMessages}</Text>
           <Pressable
@@ -192,15 +208,15 @@ const ChatScreen = () => {
             onPress={() => onStatePress('isFilter', !state.isFilter)}>
             <View style={{flexDirection: 'row'}}>
               <Image
-                style={{height: 18, width: 20}}
+                style={{height: heightPixel(18), width: heightPixel(19)}}
                 source={image.updownarraow}
               />
             </View>
           </Pressable>
         </View>
         {/* AllContacts */}
-        <View style={{marginTop: 20}} />
         <FlatList
+          style={{marginTop: pixelSizeVertical(24)}}
           data={state.ChatData}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -241,7 +257,7 @@ const ChatScreen = () => {
           <Pressable
             style={styles.SettingView}
             onPress={() => navigationservice.navigate(screenname.ChatSetting)}>
-            <Image style={{height: 24, width: 24}} source={image.setting} />
+            <Image style={{height: heightPixel(24), width: heightPixel(24)}} source={image.setting} />
             <Text style={styles.FilterText}>{i18n.Setting}</Text>
           </Pressable>
         )}
@@ -281,8 +297,17 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
       onPress={() =>
         props.onPress({isLock: props.item.isLock, index: props.index})
       }>
-      <View style={{flex: 0.2}}>
+      <View>
         <View style={styles.Profile}>
+          <Image
+            style={{
+              height: heightPixel(60),
+              width: heightPixel(60),
+              borderRadius: heightPixel(30),
+            }}
+            resizeMode="cover"
+            source={image.profiledummy}
+          />
           {props.item.isDelete && (
             <View>
               <Image source={image.rightMark} style={{height: 30, width: 30}} />
@@ -297,7 +322,12 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
         />
       </View>
       <View style={{flex: 1}}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: pixelSizeHorizontal(6),
+          }}>
           <Text style={styles.userName}>{props.item.name}</Text>
           {props.item.messageCount && (
             <View style={styles.CountRound}>
@@ -305,17 +335,27 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
             </View>
           )}
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: pixelSizeHorizontal(6),
+            alignItems: 'flex-end',
+          }}>
           <View
             style={{
               flexDirection: 'row',
-              alignItems: 'center',
+              width: '86%',
             }}>
             {props.item.isSend && (
               <Image
                 source={image.read}
                 style={[
-                  {height: 16, width: 16},
+                  {
+                    height: heightPixel(16),
+                    width: heightPixel(16),
+                    top: pixelSizeVertical(2),
+                  },
                   props.item.isRead && {tintColor: '#5A5FEA'},
                 ]}
               />
@@ -339,23 +379,32 @@ interface HeaderProps {
 const HeaderOfChatScreen = (props: HeaderProps) => {
   return (
     <View style={styles.HeaderView}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View style={styles.RoundOfICon}>
           <Image source={image.cartoon} style={styles.icon} />
         </View>
         <Text style={styles.ShoriText}>{i18n.Shori}</Text>
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Pressable onPress={() => props.onSearchPress()}>
-          <Image source={image.search} style={{height: 24, width: 24}} />
+          <Image
+            source={image.search}
+            style={{height: heightPixel(24), width: heightPixel(24)}}
+          />
         </Pressable>
         <Pressable
           onPress={() => props.onLockPress()}
-          style={{marginHorizontal: 10}}>
-          <Image source={image.lock} style={{height: 24, width: 24}} />
+          style={{marginHorizontal: pixelSizeHorizontal(10)}}>
+          <Image
+            source={image.lock}
+            style={{height: heightPixel(24), width: heightPixel(24)}}
+          />
         </Pressable>
         <Pressable onPress={() => props.onThreeDotsPress()}>
-          <Image source={image.threedots} style={{height: 24, width: 24}} />
+          <Image
+            source={image.threedots}
+            style={{height: heightPixel(24), width: heightPixel(24)}}
+          />
         </Pressable>
       </View>
     </View>
@@ -369,168 +418,166 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   HeaderBox: {
-    height: 120,
-    paddingTop: 50,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    height: heightPixel(120),
+    borderBottomRightRadius: heightPixel(20),
+    borderBottomLeftRadius: heightPixel(20),
     backgroundColor: '#5A5FEA',
+    paddingTop: pixelSizeVertical(50),
   },
   HeaderView: {
-    height: 50,
-    paddingHorizontal: 14,
+    ...commanStyle.ph14,
+    height: heightPixel(60),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 10,
   },
   RoundOfICon: {
-    height: 40,
-    width: 40,
+    height: heightPixel(34),
+    width: heightPixel(34),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: heightPixel(11),
     backgroundColor: 'white',
     alignSelf: 'center',
   },
   RoundOfIConSmall: {
-    height: 50,
-    width: 50,
+    height: heightPixel(40),
+    width: heightPixel(40),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: heightPixel(10),
     backgroundColor: '#5A5FEA',
     alignSelf: 'center',
   },
   Profile: {
-    height: 50,
-    width: 50,
+    height: heightPixel(60),
+    width: heightPixel(60),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25,
+    borderRadius: heightPixel(30),
     backgroundColor: '#5A5FEA',
   },
   CountRound: {
-    height: 26,
-    width: 26,
+    height: heightPixel(26),
+    width: heightPixel(26),
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
     backgroundColor: '#5A5FEA',
   },
   Online: {
-    height: 20,
-    width: 20,
+    height: heightPixel(20),
+    width: heightPixel(20),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25,
-    borderWidth: 3,
+    borderRadius: heightPixel(25),
+    borderWidth: heightPixel(3),
     borderColor: 'white',
     position: 'absolute',
-    right: 10,
+    right: 0,
     bottom: 0,
   },
   icon: {
-    height: 28,
-    width: 28,
+    height: heightPixel(22),
+    width: heightPixel(21),
     tintColor: '#5A5FEA',
   },
   ShoriText: {
-    fontSize: 20,
+    fontSize: heightPixel(20),
     fontFamily: popnisfont.PoppinsMedium,
     color: 'white',
-    marginLeft: 8,
+    marginLeft: pixelSizeHorizontal(8),
     textAlignVertical: 'center',
   },
   AllMessageText: {
-    fontSize: 18,
+    fontSize: fontPixel(16),
     fontFamily: popnisfont.PoppinsMedium,
     color: 'gray',
   },
   ChatBox: {
-    height: 90,
+    height: heightPixel(90),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 14,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
-    paddingHorizontal: 14,
   },
   userName: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     color: 'black',
     fontFamily: popnisfont.PoppinsMedium,
   },
   lastMessage: {
-    fontSize: 14,
+    fontSize: fontPixel(14),
     color: '#878D99',
     fontFamily: popnisfont.PoppinsMedium,
+    marginHorizontal: pixelSizeHorizontal(2),
   },
   Time: {
-    fontSize: 12,
+    fontSize: fontPixel(10),
     color: '#878D99',
     fontFamily: popnisfont.PoppinsMedium,
   },
   Count: {
-    fontSize: 14,
+    fontSize: fontPixel(14),
     color: 'white',
     fontWeight: 'bold',
   },
   FilterBox: {
     justifyContent: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    borderRadius: 20,
+    paddingHorizontal: pixelSizeHorizontal(14),
+    paddingVertical: pixelSizeVertical(14),
+    borderRadius: heightPixel(20),
     position: 'absolute',
     backgroundColor: 'white',
     ...commanStyle.boxShadow,
-    right: 50,
-    top: 40,
+    right: pixelSizeHorizontal(40),
+    top: pixelSizeVertical(20)
   },
   FilterText: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     color: 'black',
     margin: 6,
     fontFamily: popnisfont.PoppinsRegular,
   },
   SettingView: {
     justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: pixelSizeHorizontal(16),
+    paddingVertical: pixelSizeVertical(6),
+    borderRadius: heightPixel(12),
     position: 'absolute',
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
     ...commanStyle.boxShadow,
-    right: 20,
-    top: -30,
+    right: pixelSizeHorizontal(20),
+    top : pixelSizeVertical(-40)
   },
   SearchView: {
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
-    width: '90%',
-    borderRadius: 25,
+    height: heightPixel(60),
+    width: widthPixel(374),
+    borderRadius: heightPixel(30),
     alignSelf: 'center',
-    marginTop: 10,
     borderWidth: 1,
     borderColor: '#D8E0F1',
-    paddingHorizontal: 10,
+    paddingHorizontal: pixelSizeHorizontal(10),
   },
   backRound: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: heightPixel(40),
+    width: heightPixel(40),
+    borderRadius: heightPixel(20),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5A5FEA25',
   },
   SearchInputView: {
-    height: 40,
+    height: heightPixel(40),
     width: '80%',
-    paddingLeft: 10,
-    fontSize: 14,
+    paddingLeft: pixelSizeHorizontal(10),
+    fontSize: fontPixel(14),
   },
 });

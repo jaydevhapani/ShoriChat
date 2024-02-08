@@ -22,6 +22,13 @@ import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
 import {Swipeable} from 'react-native-gesture-handler';
 import DeleteModal from '../../component/deleteModal';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../../constant';
 
 const dummyMessage = [
   {
@@ -101,15 +108,14 @@ export default function MessageScreen() {
             onThreeDots={() => onStatePress('isThreeDots', !state.isThreeDots)}
           />
         )}
-
         {state.isLongPressForMessage && (
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 14,
-              marginTop: 30,
+              paddingHorizontal: pixelSizeHorizontal(14),
+              marginTop: heightPixel(30),
             }}>
             <View
               style={{
@@ -118,16 +124,20 @@ export default function MessageScreen() {
               }}>
               <Pressable onPress={() => doFalseAllSelectedData()}>
                 <Image
-                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  style={{
+                    height: heightPixel(24),
+                    width: heightPixel(24),
+                    tintColor: 'white',
+                  }}
                   source={image.backarrow}
                 />
               </Pressable>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: fontPixel(18),
                   color: 'white',
                   textAlignVertical: 'center',
-                  marginLeft: 10,
+                  marginLeft: pixelSizeHorizontal(10),
                 }}>
                 {
                   state.messageData.filter(item => item.isLongPressForMessage)
@@ -144,19 +154,31 @@ export default function MessageScreen() {
                   )
                 }>
                 <Image
-                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  style={{
+                    height: heightPixel(24),
+                    width: heightPixel(24),
+                    tintColor: 'white',
+                  }}
                   source={image.delete}
                 />
               </Pressable>
-              <Pressable style={{marginHorizontal: 10}}>
+              <Pressable style={{marginHorizontal: pixelSizeHorizontal(10)}}>
                 <Image
-                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  style={{
+                    height: heightPixel(24),
+                    width: heightPixel(24),
+                    tintColor: 'white',
+                  }}
                   source={image.star}
                 />
               </Pressable>
               <Pressable>
                 <Image
-                  style={{height: 24, width: 24, tintColor: 'white'}}
+                  style={{
+                    height: heightPixel(24),
+                    width: heightPixel(24),
+                    tintColor: 'white',
+                  }}
                   source={image.filemanager}
                 />
               </Pressable>
@@ -211,7 +233,7 @@ export default function MessageScreen() {
               <View style={styles.replayBox}>
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: fontPixel(14),
                     fontFamily: popnisfont.PoppinsRegular,
                     color: 'black',
                   }}
@@ -223,7 +245,10 @@ export default function MessageScreen() {
                     onStatePress('ReplayMessage', undefined),
                       onStatePress('isReplayOrEditReset', true);
                   }}>
-                  <Image source={image.close} style={{height: 24, width: 24}} />
+                  <Image
+                    source={image.close}
+                    style={{height: heightPixel(24), width: heightPixel(24)}}
+                  />
                 </Pressable>
               </View>
             )}
@@ -236,7 +261,7 @@ export default function MessageScreen() {
               />
               <View style={styles.sendIcon}>
                 <Image
-                  style={{height: 24, width: 24}}
+                  style={{height: heightPixel(24), width: heightPixel(24)}}
                   source={image.sendmessage}
                 />
               </View>
@@ -249,14 +274,22 @@ export default function MessageScreen() {
         <View style={styles.FilterBox}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
-              style={{height: 24, width: 24, tintColor: 'black'}}
+              style={{
+                height: heightPixel(24),
+                width: heightPixel(24),
+                tintColor: 'black',
+              }}
               source={image.search}
             />
             <Text style={styles.FilterText}>{i18n.Search}</Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
-              style={{height: 24, width: 24, tintColor: 'black'}}
+              style={{
+                height: heightPixel(24),
+                width: heightPixel(24),
+                tintColor: 'black',
+              }}
               source={image.star}
             />
             <Text style={styles.FilterText}>{i18n.StarredMessage}</Text>
@@ -267,14 +300,22 @@ export default function MessageScreen() {
               onStatePress('isAllDeleteMessage', !state.isAllDeleteMessage)
             }>
             <Image
-              style={{height: 24, width: 24, tintColor: 'black'}}
+              style={{
+                height: heightPixel(24),
+                width: heightPixel(24),
+                tintColor: 'black',
+              }}
               source={image.delete}
             />
             <Text style={styles.FilterText}>{i18n.DeleteMessage}</Text>
           </Pressable>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
-              style={{height: 24, width: 24, tintColor: 'black'}}
+              style={{
+                height: heightPixel(24),
+                width: heightPixel(24),
+                tintColor: 'black',
+              }}
               source={image.clearclose}
             />
             <Text style={styles.FilterText}>{i18n.Clearchat}</Text>
@@ -327,7 +368,11 @@ const HeaderOfChatScreen = (props: HeaderProps) => {
         <Pressable onPress={() => navigationservice.goBack()}>
           <Image
             source={image.backarrow}
-            style={{height: 26, width: 26, tintColor: 'white'}}
+            style={{
+              height: heightPixel(26),
+              width: heightPixel(26),
+              tintColor: 'white',
+            }}
           />
         </Pressable>
       </View>
@@ -337,8 +382,17 @@ const HeaderOfChatScreen = (props: HeaderProps) => {
             style={styles.HeaderProfile}
             onPress={() =>
               navigationservice.navigate(screenname.ChatUserDetails)
-            }></Pressable>
-          <View style={{marginLeft: 10}}>
+            }>
+            <Image
+              source={image.profiledummy}
+              style={{
+                height: heightPixel(50),
+                width: heightPixel(50),
+                borderRadius: heightPixel(50),
+              }}
+            />
+          </Pressable>
+          <View style={{marginLeft: pixelSizeHorizontal(10)}}>
             <Text style={styles.UserName}>Jenny Wilson</Text>
             <Text style={styles.Online}>Online</Text>
           </View>
@@ -352,7 +406,11 @@ const HeaderOfChatScreen = (props: HeaderProps) => {
         <Pressable onPress={() => props.onThreeDots()}>
           <Image
             source={image.threedots}
-            style={{height: 26, width: 26, tintColor: 'white'}}
+            style={{
+              height: heightPixel(26),
+              width: heightPixel(26),
+              tintColor: 'white',
+            }}
           />
         </Pressable>
       </View>
@@ -413,7 +471,7 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
             ? styles.MessageViewStyleSender
             : styles.MessageViewStyleReceiver,
           data.item.reaction && {
-            paddingBottom: 14,
+            paddingBottom: pixelSizeVertical(10),
           },
           data.item.isLongPressForMessage && {
             backgroundColor: '#00000020',
@@ -436,7 +494,11 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
               }>
               <Image
                 source={image.threedots}
-                style={{height: 20, width: 20, tintColor: '#5A5FEA'}}
+                style={{
+                  height: heightPixel(20),
+                  width: heightPixel(20),
+                  tintColor: '#5A5FEA',
+                }}
               />
             </Pressable>
           )}
@@ -458,11 +520,12 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
               style={[
                 {
                   alignSelf: 'flex-end',
-                  fontSize: 10,
+                  fontSize: fontPixel(10),
                   fontFamily: popnisfont.PoppinsRegular,
                   color: 'black',
                 },
-                data.item.reaction && data.item.isSender && {marginBottom: 4},
+                data.item.reaction &&
+                  data.item.isSender && {marginBottom: pixelSizeVertical(4)},
               ]}>
               {data.item.time}
             </Text>
@@ -475,7 +538,11 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
               }>
               <Image
                 source={image.threedots}
-                style={{height: 20, width: 20, tintColor: '#5A5FEA'}}
+                style={{
+                  height: heightPixel(20),
+                  width: heightPixel(20),
+                  tintColor: '#5A5FEA',
+                }}
               />
             </Pressable>
           )}
@@ -486,15 +553,17 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
               styles.ReactionRound,
               data.item.isSender
                 ? {
-                    right: 20,
-                    bottom: 1,
+                    right: pixelSizeHorizontal(20),
+                    bottom: heightPixel(-6),
                   }
                 : {
-                    left: 20,
-                    bottom: 1,
+                    left: pixelSizeHorizontal(20),
+                    bottom: heightPixel(-6),
                   },
             ]}>
-            <Text style={{color: 'pink'}}>{data.item.reaction}</Text>
+            <Text style={{color: 'pink', fontSize: fontPixel(16)}}>
+              {data.item.reaction}
+            </Text>
           </View>
         )}
       </Pressable>
@@ -504,36 +573,35 @@ const _MemoRizedMessagesComponent = React.memo((data: MessageProps) => {
 
 const styles = StyleSheet.create({
   HeaderBox: {
-    height: 120,
-    paddingTop: 50,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    height: heightPixel(120),
+    borderBottomRightRadius: heightPixel(20),
+    borderBottomLeftRadius: heightPixel(20),
     backgroundColor: '#5A5FEA',
+    paddingTop: pixelSizeVertical(50),
+  },
+  HeaderView: {
+    height: heightPixel(60),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   replayBox: {
-    // height : 50,
-    paddingVertical: 20,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 50,
-    width: '94%',
+    height: heightPixel(64),
+    paddingVertical: pixelSizeVertical(20),
+    marginVertical: pixelSizeVertical(10),
+    paddingHorizontal: pixelSizeHorizontal(10),
+    borderRadius: heightPixel(50),
+    width: widthPixel(390),
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
     backgroundColor: '#B0B0B025',
   },
-  HeaderView: {
-    height: 50,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
   HeaderProfile: {
-    height: 50,
-    width: 50,
-    borderRadius: 30,
-    borderWidth: 3,
+    height: heightPixel(50),
+    width: heightPixel(50),
+    borderRadius: heightPixel(50),
+    borderWidth: heightPixel(3),
     borderColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -542,60 +610,60 @@ const styles = StyleSheet.create({
   Time: {
     color: 'white',
     fontFamily: popnisfont.PoppinsMedium,
-    fontSize: 14,
+    fontSize: fontPixel(14),
   },
   TimeStemp: {
     color: 'white',
     fontFamily: popnisfont.PoppinsRegular,
-    fontSize: 10,
+    fontSize: fontPixel(10),
     textAlign: 'right',
   },
   UserName: {
     color: 'white',
     fontFamily: popnisfont.PoppinsMedium,
-    fontSize: 18,
+    fontSize: fontPixel(18),
   },
   Online: {
     color: 'white',
     fontFamily: popnisfont.PoppinsRegular,
-    fontSize: 12,
+    fontSize: fontPixel(12),
   },
   ChatBox: {
-    // height: 64,
+    height: heightPixel(64),
     paddingVertical: 6,
-    width: '92%',
-    borderWidth: 1,
-    borderRadius: 32,
+    width: widthPixel(390),
+    borderWidth: heightPixel(1),
+    borderRadius: heightPixel(32),
     borderColor: '#D8E0F1',
     alignSelf: 'center',
     backgroundColor: 'white',
-    marginBottom: 30,
-    paddingHorizontal: 6,
+    marginBottom: heightPixel(30),
+    paddingHorizontal: pixelSizeHorizontal(6),
   },
   SearchInputView: {
-    height: 40,
+    height: heightPixel(40),
     flex: 1,
-    paddingLeft: 20,
-    fontSize: 14,
+    paddingLeft: pixelSizeHorizontal(14),
+    fontSize: fontPixel(14),
   },
   sendIcon: {
-    height: 44,
-    width: 44,
-    borderRadius: 30,
+    height: heightPixel(44),
+    width: heightPixel(44),
+    borderRadius: heightPixel(32),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5A5FEA25',
   },
   FilterBox: {
     justifyContent: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    borderRadius: 20,
+    paddingHorizontal: pixelSizeHorizontal(14),
+    paddingVertical: pixelSizeVertical(14),
+    borderRadius: heightPixel(20),
     position: 'absolute',
     backgroundColor: 'white',
     ...commanStyle.boxShadow,
-    right: 20,
-    top: 110,
+    right: pixelSizeHorizontal(20),
+    top: pixelSizeVertical(100),
   },
   ThreeDotsBox: {
     justifyContent: 'center',
@@ -608,59 +676,59 @@ const styles = StyleSheet.create({
     zIndex: 99999,
   },
   ThreeDotsText: {
-    fontSize: 10,
+    fontSize: fontPixel(10),
     color: 'black',
     margin: 2,
     fontFamily: popnisfont.PoppinsRegular,
   },
   FilterText: {
-    fontSize: 16,
+    fontSize: heightPixel(16),
     color: 'black',
     margin: 6,
     fontFamily: popnisfont.PoppinsRegular,
   },
   MessageViewStyleSender: {
-    paddingHorizontal: 14,
-    marginVertical: 10,
+    paddingHorizontal: pixelSizeHorizontal(14),
+    marginVertical: pixelSizeVertical(10),
     alignItems: 'flex-end',
   },
   MessageViewStyleReceiver: {
-    paddingHorizontal: 14,
-    marginVertical: 10,
+    paddingHorizontal: pixelSizeHorizontal(14),
+    marginVertical: pixelSizeVertical(10),
     alignItems: 'flex-start',
   },
   MessageSenderChildView: {
     backgroundColor: '#246BFD50',
-    borderTopLeftRadius: 16,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    maxWidth: 310,
+    borderTopLeftRadius: pixelSizeHorizontal(16),
+    borderBottomLeftRadius: heightPixel(16),
+    borderBottomRightRadius: heightPixel(16),
+    paddingVertical: pixelSizeVertical(10),
+    paddingHorizontal: pixelSizeHorizontal(20),
+    maxWidth: widthPixel(310),
   },
   MessageReceiverChildView: {
     backgroundColor: 'white',
-    borderTopRightRadius: 16,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    maxWidth: 310,
+    borderTopRightRadius: pixelSizeHorizontal(16),
+    borderBottomLeftRadius: heightPixel(16),
+    borderBottomRightRadius: heightPixel(16),
+    paddingVertical: pixelSizeVertical(10),
+    paddingHorizontal: pixelSizeHorizontal(20),
+    maxWidth: widthPixel(310),
   },
   SenderMessageText: {
     fontFamily: popnisfont.PoppinsRegular,
-    fontSize: 16,
+    fontSize: fontPixel(16),
     color: 'black',
   },
   ReceiverMessageText: {
     fontFamily: popnisfont.PoppinsRegular,
-    fontSize: 16,
+    fontSize: fontPixel(16),
     color: 'black',
   },
   ReactionRound: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
+    height: heightPixel(30),
+    width: heightPixel(30),
+    borderRadius: heightPixel(15),
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -668,12 +736,12 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: '#000',
-        shadowOffset: {width: 0, height: 2},
+        shadowOffset: {width: 0, height: heightPixel(2)},
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
       },
       android: {
-        elevation: 4,
+        elevation: heightPixel(4),
       },
     }),
   },

@@ -31,4 +31,7 @@ export default {
     graydelete : require('./image/graydelete.png'),
     block : require('./image/block.png'),
     openlock : require('./image/openlock.png'),
+    Flag : require('./image/Flag.png'),
+    CountySelect : require('./image/CountySelect.png'),
+    profiledummy : require('./image/profiledummy.png'),
 }

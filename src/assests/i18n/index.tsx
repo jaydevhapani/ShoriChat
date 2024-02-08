@@ -53,5 +53,6 @@ export default {
     Yes : 'Yes',
     No : 'No',
     From  :'From',
-    To : 'To'
+    To : 'To',
+    DeleteTotalMessage : "Delete total message",
 }

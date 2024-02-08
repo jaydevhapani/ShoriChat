@@ -11,6 +11,7 @@ import image from '../assests/image';
 import {Callback} from '@react-native-async-storage/async-storage/lib/typescript/types';
 import navigationservice from '../navigation/navigationservice';
 import popnisfont from '../assests/popnisfont';
+import { fontPixel, heightPixel, pixelSizeHorizontal } from '../constant';
 
 interface Props {
   title?: string;
@@ -31,21 +32,20 @@ export default function AuthHeader(props: Props) {
 
 const styles = StyleSheet.create({
   Container: {
-    height: 40,
-    paddingHorizontal: 10,
-    // alignItems: 'center',
+    height: heightPixel(50),
+    paddingHorizontal: pixelSizeHorizontal(10),
     justifyContent: 'center',
   },
   ButtonView: {
     position: 'absolute',
-    marginLeft : 14,
+    marginLeft : pixelSizeHorizontal(14),
   },
   icon: {
-    height: 18,
-    width: 30,
+    height: heightPixel(18),
+    width: heightPixel(30),
   },
   title: {
-    fontSize: 20,
+    fontSize: fontPixel(20),
     fontFamily: popnisfont.PoppinsMedium,
     color: 'black',
     alignSelf : 'center'

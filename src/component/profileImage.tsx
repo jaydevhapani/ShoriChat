@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import image from '../assests/image';
+import { heightPixel, pixelSizeHorizontal } from '../constant';
 
 interface Props {
   isCapture?: boolean;
@@ -22,26 +23,26 @@ export default function ProfileImage(props: Props) {
 
 const styles = StyleSheet.create({
   Container: {
-    height: 160,
-    width: 160,
-    borderRadius: 80,
+    height: heightPixel(160),
+    width: heightPixel(160),
+    borderRadius: heightPixel(80),
     backgroundColor: '#D8E0F1',
   },
   ImageCapture: {
-    height: 44,
-    width: 44,
-    borderRadius: 30,
-    borderWidth: 4,
+    height: heightPixel(44),
+    width: heightPixel(44),
+    borderRadius: heightPixel(30),
+    borderWidth: heightPixel(4),
     borderColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5A5FEA',
     position: 'absolute',
-    right: 10,
+    right: pixelSizeHorizontal(10),
     bottom: 0,
   },
   Icon: {
-    height: 22,
-    width: 24,
+    height: heightPixel(22),
+    width: heightPixel(24),
   },
 });

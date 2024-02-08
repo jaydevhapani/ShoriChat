@@ -4,6 +4,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import commanStyle from '../constant/commanStyle';
 import popnisfont from '../assests/popnisfont';
 import image from '../assests/image';
+import { fontPixel, heightPixel, pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../constant';
 
 interface Props {
   value?: string;
@@ -30,7 +31,7 @@ export default function ConmanTextInput(props: Props) {
         />
         {props.isRight && (
           <View>
-            <Image source={props.image} style={{height : 30, width : 30, marginRight : 10}}/>
+            <Image source={props.image} style={{height : heightPixel(30), width : heightPixel(30), marginRight : 10}}/>
           </View>
         )}
       </View>
@@ -40,22 +41,27 @@ export default function ConmanTextInput(props: Props) {
 // ...commanStyle.boxShadow,
 const styles = StyleSheet.create({
   inputViewStyle: {
-    height: 60,
-    width: 360,
+    height: heightPixel(70),
+    width: widthPixel(360),
     borderWidth: 1,
     borderColor: '#D8E0F1',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: heightPixel(14),
     justifyContent: 'center',
     ...commanStyle.boxShadow,
   },
   TextInput: {
-    height: 50,
-    paddingHorizontal: 10,
+    height: heightPixel(60),
+    paddingHorizontal: pixelSizeHorizontal(10),
+    color : 'black',
+    fontSize: fontPixel(16),
+    fontFamily: popnisfont.PoppinsRegular,
+ 
   },
   HeaderName: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     fontFamily: popnisfont.PoppinsMedium,
     color: '#686978',
+    marginBottom : pixelSizeVertical(11)
   },
 });

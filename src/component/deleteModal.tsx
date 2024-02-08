@@ -7,6 +7,13 @@ import popnisfont from '../assests/popnisfont';
 import OtpInputs from 'react-native-otp-inputs';
 import ButtonComponent from './buttonComponent';
 import RnLockSwitch from './RnLockSwitch';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../constant';
 
 interface ModalProps {
   onClosePress: Callback;
@@ -16,55 +23,82 @@ interface ModalProps {
 const DeleteModal = (props: ModalProps) => {
   return (
     <Modal animationType="slide" transparent={true}>
-      <View style={styles.Container}>
-        <View style={styles.ModalView}>
-          <Pressable
-            onPress={() => props.onClosePress()}
-            style={{alignSelf: 'flex-end'}}>
-            <Image source={image.close} style={{height: 30, width: 30}} />
-          </Pressable>
-          <Text style={styles.label}>{i18n.Aresuretodeletemessage}</Text>
+      <Pressable style={styles.Container} onPress={() => props.onClosePress()}>
+        <View
+          style={[
+            styles.ModalView,
+            props.isMultipleMessage && {
+              height: heightPixel(349),
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              paddingVertical: pixelSizeVertical(20),
+            },
+          ]}>
+          <Text style={styles.label}>
+            {props.isMultipleMessage
+              ? i18n.DeleteTotalMessage
+              : i18n.Aresuretodeletemessage}
+          </Text>
           {!props.isMultipleMessage && (
-            <>
+            <View>
               <View
                 style={{
                   flexDirection: 'row',
                   alignSelf: 'flex-start',
-                  marginLeft: 30,
-                  marginTop: 10,
+                  marginLeft: pixelSizeHorizontal(10),
+                  marginTop: pixelSizeVertical(12),
                 }}>
                 <View style={styles.checkBox}></View>
                 <Text style={styles.label1}>{i18n.Deleteforme}</Text>
               </View>
-              <View style={{flexDirection: 'row', marginTop: 10}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: pixelSizeVertical(29),
+                }}>
                 <ButtonComponent
                   buttonStyle={[
                     styles.ButtonStyle,
                     {backgroundColor: 'white', borderWidth: 0.5},
                   ]}
                   buttonName={i18n.Yes}
-                  textStyle={{color: 'black'}}
+                  textStyle={{
+                    color: 'black',
+                    fontSize: fontPixel(16),
+                    fontFamily: popnisfont.PoppinsMedium,
+                  }}
                 />
                 <ButtonComponent
                   buttonStyle={styles.ButtonStyle}
                   buttonName={i18n.No}
+                  textStyle={{
+                    color: 'white',
+                    fontSize: fontPixel(16),
+                    fontFamily: popnisfont.PoppinsMedium,
+                  }}
                 />
               </View>
-            </>
+            </View>
           )}
           {props.isMultipleMessage && (
             <>
               <View style={{marginTop: 10}} />
               <DateSelection title={i18n.From} />
+              <View style={{height: heightPixel(13)}} />
               <DateSelection title={i18n.To} />
               <ButtonComponent
                 buttonName={i18n.DeleteMessage}
-                buttonStyle={{width: 200, height: 50, marginTop: 20}}
+                buttonStyle={{
+                  width: widthPixel(200),
+                  height: heightPixel(60),
+                  marginTop: 20,
+                  borderRadius: heightPixel(30),
+                }}
               />
             </>
           )}
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };
@@ -77,9 +111,12 @@ const DateSelection = (props: SelectProps) => {
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <Text
         style={{
-          width: '20%',
           color: 'black',
-          fontFamily: popnisfont.PoppinsRegular,
+          fontSize: fontPixel(15),
+          fontFamily: popnisfont.PoppinsMedium,
+          marginHorizontal: pixelSizeHorizontal(10),
+          width: widthPixel(40),
+          textAlign: 'center',
         }}>
         {props.title}
       </Text>
@@ -88,22 +125,24 @@ const DateSelection = (props: SelectProps) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 50,
-          width: 150,
+          height: heightPixel(60),
+          width: widthPixel(210),
           borderWidth: 0.5,
-          borderRadius: 10,
-          marginTop: 20,
+          borderRadius: heightPixel(10),
           paddingHorizontal: 10,
         }}>
         <Text
           style={{
-            fontSize: 14,
+            fontSize: fontPixel(16),
             color: 'black',
-            fontFamily: popnisfont.PoppinsRegular,
+            fontFamily: popnisfont.PoppinsMedium,
           }}>
           12-03-2022
         </Text>
-        <Image source={image.calander} style={{height: 24, width: 24}} />
+        <Image
+          source={image.calander}
+          style={{height: heightPixel(24), width: heightPixel(24)}}
+        />
       </View>
     </View>
   );
@@ -121,11 +160,13 @@ const styles = StyleSheet.create({
   ModalView: {
     shadowColor: '#000',
     backgroundColor: 'white',
-    width: '90%',
-    borderRadius: 10,
+    width: widthPixel(374),
+    height: heightPixel(210),
+    borderRadius: heightPixel(20),
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 16,
+    justifyContent: 'center',
+    paddingHorizontal: pixelSizeHorizontal(10),
+    paddingVertical: pixelSizeVertical(10),
     shadowOffset: {
       width: 0,
       height: 2,
@@ -143,27 +184,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontSize: 18,
+    fontSize: fontPixel(18),
     color: 'black',
-    fontFamily: popnisfont.PoppinsSemiBold,
-    marginTop: 6,
+    fontFamily: popnisfont.PoppinsMedium,
   },
   label1: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     color: 'black',
     fontFamily: popnisfont.PoppinsRegular,
   },
   checkBox: {
-    height: 24,
-    width: 24,
-    borderRadius: 6,
+    height: heightPixel(24),
+    width: heightPixel(24),
+    borderRadius: heightPixel(6),
     borderWidth: 0.5,
     borderColor: 'gray',
-    marginHorizontal: 10,
+    marginHorizontal: pixelSizeHorizontal(10),
   },
   ButtonStyle: {
-    width: 100,
-    borderRadius: 40,
-    marginHorizontal: 10,
+    width: widthPixel(103),
+    height: heightPixel(60),
+    borderRadius: heightPixel(40),
+    marginHorizontal: pixelSizeHorizontal(10),
   },
 });

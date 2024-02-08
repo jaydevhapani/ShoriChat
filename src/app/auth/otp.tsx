@@ -9,6 +9,7 @@ import ButtonComponent from '../../component/buttonComponent';
 import popnisfont from '../../assests/popnisfont';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
+import {fontPixel, heightPixel, pixelSizeVertical} from '../../constant';
 
 export default function OtpEnter() {
   return (
@@ -29,23 +30,23 @@ export default function OtpEnter() {
           keyboardType="phone-pad"
           inputStyles={styles.InputBox}
           style={{
-            marginTop: 30,
+            marginTop: heightPixel(36),
             flexDirection: 'row',
-            justifyContent: 'space-around',
+            justifyContent: 'space-evenly',
           }}
           focusStyles={styles.FocusInputBox}
         />
-        <View style={{marginTop: 40}}>
+        <View style={{marginTop: pixelSizeVertical(70)}}>
           <ButtonComponent
             buttonName={i18n.Verify}
             onPress={() => navigationservice.navigate(screenname.AddBio)}
           />
         </View>
-        <View style={{marginTop: 40, alignSelf: 'center'}}>
+        <View style={{marginTop: pixelSizeVertical(48), alignSelf: 'center'}}>
           <Text
             style={{
               textAlign: 'center',
-              fontSize: 16,
+              fontSize: fontPixel(16),
               fontFamily: popnisfont.PoppinsRegular,
             }}>
             {i18n.DontGetOtp}{' '}
@@ -59,23 +60,23 @@ export default function OtpEnter() {
 
 const styles = StyleSheet.create({
   InputBox: {
-    height: 70,
-    width: 70,
+    height: heightPixel(80),
+    width: heightPixel(80),
     borderWidth: 1,
     borderColor: '#D8E0F1',
-    borderRadius: 10,
+    borderRadius: heightPixel(20),
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 20,
+    fontSize: fontPixel(20),
     textAlign: 'center',
     color: 'black',
   },
   FocusInputBox: {
-    height: 70,
-    width: 70,
+    height: heightPixel(80),
+    width: heightPixel(80),
     borderWidth: 1,
     borderColor: '#5A5FEA',
-    borderRadius: 10,
+    borderRadius: heightPixel(20),
     alignItems: 'center',
     justifyContent: 'center',
   },

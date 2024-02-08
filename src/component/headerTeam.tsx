@@ -4,13 +4,14 @@ import i18n from '../assests/i18n';
 import image from '../assests/image';
 import commanStyle from '../constant/commanStyle';
 import popnisfont from '../assests/popnisfont';
+import { fontPixel, heightPixel, pixelSizeVertical } from '../constant';
 interface Props  {
     title?: string;
     description?: string
 }
 export default function HeaderTeam(props : Props) {
   return (
-    <View style={{marginTop: 20}}>
+    <View>
       <View style={styles.RoundOfICon}>
         <Image style={styles.icon} source={image.cartoon} />
       </View>
@@ -22,32 +23,35 @@ export default function HeaderTeam(props : Props) {
 
 const styles = StyleSheet.create({
   RoundOfICon: {
-    height: 100,
-    width: 100,
+    height: heightPixel(100),
+    width:  heightPixel(100),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: heightPixel(30),
     backgroundColor: '#5A5FEA',
     alignSelf: 'center',
     ...commanStyle.boxShadow,
+    marginTop : pixelSizeVertical(10),
   },
   icon: {
-    height: 62,
-    width: 60,
-    tintColor: 'white',
+    height: heightPixel(64),
+    width: heightPixel(61),
+    tintColor : 'white'
   },
   Title: {
-    fontSize: 24,
+    marginTop: pixelSizeVertical(56),
+    fontSize: fontPixel(24),
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'black',
-    marginTop: 50,
     alignSelf: 'center',
   },
   Description: {
-    fontSize: 14,
+    fontSize: fontPixel(14),
     fontFamily: popnisfont.PoppinsRegular,
-    color: 'black',
+    color: '#686978',
     alignSelf: 'center',
     textAlign: 'center',
+    letterSpacing : 0.5,
+    marginTop : pixelSizeVertical(16)
   },
 });

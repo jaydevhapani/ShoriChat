@@ -7,6 +7,13 @@ import popnisfont from '../assests/popnisfont';
 import OtpInputs from 'react-native-otp-inputs';
 import ButtonComponent from './buttonComponent';
 import RnLockSwitch from './RnLockSwitch';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../constant';
 
 interface ModalProps {
   onClosePress: Callback;
@@ -16,19 +23,33 @@ interface ModalProps {
 const LockModal = (props: ModalProps) => {
   return (
     <Modal animationType="slide" transparent={true}>
-      <View style={styles.Container}>
-        <View style={styles.ModalView}>
-          <Pressable
-            onPress={() => props.onClosePress()}
-            style={{alignSelf: 'flex-end'}}>
-            <Image source={image.close} style={{height: 30, width: 30}} />
-          </Pressable>
+      <Pressable style={styles.Container} onPress={() => props.onClosePress()}>
+        <View
+          style={[
+            styles.ModalView,
+            props.isLockingChat && {height: heightPixel(200)},
+          ]}>
+          {!props.isLockingChat && (
+            <Pressable
+              onPress={() => props.onClosePress()}
+              style={{alignSelf: 'flex-end'}}>
+              <Image
+                source={image.close}
+                style={{height: heightPixel(30), width: heightPixel(30)}}
+              />
+            </Pressable>
+          )}
+
           {!props.isLockingChat && (
             <>
               <View style={styles.lockRound}>
                 <Image
                   source={image.lock}
-                  style={{height: 30, width: 30, tintColor: '#5A5FEA'}}
+                  style={{
+                    height: heightPixel(30),
+                    width: heightPixel(30),
+                    tintColor: '#5A5FEA',
+                  }}
                 />
               </View>
               <Text style={styles.UnLockText}>{i18n.UnlockChats}</Text>
@@ -44,9 +65,9 @@ const LockModal = (props: ModalProps) => {
                   keyboardType="phone-pad"
                   inputStyles={styles.InputBox}
                   style={{
-                    marginTop: 10,
                     flexDirection: 'row',
                     justifyContent: 'space-around',
+                    marginTop: pixelSizeVertical(20),
                   }}
                   focusStyles={styles.FocusInputBox}
                 />
@@ -61,14 +82,25 @@ const LockModal = (props: ModalProps) => {
           )}
           {props.isLockingChat && (
             <>
-              <Text style={styles.UnLockText}>{i18n.Lockingchats}</Text>
-              <View style={{marginTop: 20}}>
+              <Text
+                style={[
+                  styles.UnLockText,
+                  props.isLockingChat && {
+                    fontSize: fontPixel(24),
+                    color: '#181D20',
+                    fontFamily: popnisfont.PoppinsMedium,
+                    marginTop: pixelSizeVertical(24),
+                  },
+                ]}>
+                {i18n.Lockingchats}
+              </Text>
+              <View style={{marginTop: pixelSizeVertical(28)}}>
                 <RnLockSwitch />
               </View>
             </>
           )}
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };
@@ -85,66 +117,68 @@ const styles = StyleSheet.create({
   ModalView: {
     shadowColor: '#000',
     backgroundColor: 'white',
-    width: '80%',
-    borderRadius: 10,
+    width: widthPixel(374),
+    height: heightPixel(376),
+    borderRadius: heightPixel(20),
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 16,
+    paddingHorizontal: pixelSizeHorizontal(10),
+    paddingVertical: pixelSizeVertical(10),
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: heightPixel(2),
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
   lockRound: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+    height: heightPixel(60),
+    width: heightPixel(60),
+    borderRadius: heightPixel(30),
     backgroundColor: '#5A5FEA25',
     alignItems: 'center',
     justifyContent: 'center',
   },
   UnLockText: {
-    fontSize: 20,
-    color: 'black',
+    fontSize: fontPixel(24),
+    color: '#181D20',
     fontFamily: popnisfont.PoppinsBold,
-    marginTop: 6,
+    marginTop: pixelSizeVertical(24),
   },
   UnLockTextDescription: {
-    fontSize: 14,
+    fontSize: fontPixel(14),
     color: '#686978',
     fontFamily: popnisfont.PoppinsRegular,
+    marginTop: pixelSizeVertical(12),
   },
   InputBox: {
-    height: 40,
-    width: 40,
+    height: heightPixel(40),
+    width: heightPixel(40),
     borderBottomWidth: 2,
     borderBottomColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 14,
+    fontSize: fontPixel(14),
     textAlign: 'center',
     color: 'black',
-    marginHorizontal: 6,
+    marginHorizontal: pixelSizeHorizontal(6),
   },
   FocusInputBox: {
-    height: 40,
-    width: 40,
-    borderBottomWidth: 2,
+    height: heightPixel(40),
+    width: heightPixel(40),
+    borderBottomWidth: heightPixel(2),
     borderBottomColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 6,
+    marginHorizontal: pixelSizeHorizontal(6),
   },
   ButtonStyle: {
-    height: 50,
-    marginTop: 20,
-    width: 150,
-    borderRadius: 10,
+    height: heightPixel(60),
+    width: widthPixel(166),
+    borderRadius: 100,
     backgroundColor: '#5A5FEA',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: pixelSizeVertical(30),
   },
 });

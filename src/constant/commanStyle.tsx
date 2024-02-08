@@ -1,22 +1,22 @@
 import {Platform, StatusBar, StyleSheet} from 'react-native';
+import { heightPixel, pixelSizeHorizontal } from '.';
 
 export default StyleSheet.create({
   Container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop : Platform.OS == 'android' ? 40 : 0
   },
   flex: {
     flex : 1
   },
   ph14: {
-    paddingHorizontal: 14,
+    paddingHorizontal: pixelSizeHorizontal(14),
   },
   boxShadow: {
-    shadowColor: '#5A5FEA',
-    shadowOffset: {width: 0, height: 5},
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation : 10
+    shadowColor: '#D8E0F1',
+    shadowOffset: {width: 0, height: heightPixel(10)},
+    shadowOpacity: 0.2,
+    shadowRadius: heightPixel(10),
+    elevation : heightPixel(4)
   },
 });

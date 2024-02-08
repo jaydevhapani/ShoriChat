@@ -9,24 +9,26 @@ import image from '../../assests/image';
 import ButtonComponent from '../../component/buttonComponent';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
+import {heightPixel, pixelSizeVertical} from '../../constant';
 
 export default function AddBio() {
   return (
     <SafeAreaView style={commanStyle.Container}>
       <AuthHeader title={i18n.AddBio} />
-      <View style={[commanStyle.flex]}>
+      <View style={[commanStyle.flex, commanStyle.ph14]}>
         <ScrollView style={[commanStyle.flex]}>
           <View style={{marginTop: 30, alignSelf: 'center'}}>
             <ProfileImage isCapture />
           </View>
-          <View style={{width: '100%', alignItems: 'center'}}>
-            <View style={{marginTop: 50}}>
+          <View
+            style={{marginTop: pixelSizeVertical(32), alignItems: 'center'}}>
+            <View>
               <ConmanTextInput
                 headerName={i18n.Name}
                 placeholder="Michael Keats"
               />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: pixelSizeVertical(32)}}>
               <ConmanTextInput
                 headerName={i18n.UserStatus}
                 Editable={false}
@@ -35,7 +37,7 @@ export default function AddBio() {
                 placeholder="Michael Keats"
               />
             </View>
-            <View style={{marginTop: 20, marginBottom: 30}}>
+            <View style={{marginTop: pixelSizeVertical(32)}}>
               <ConmanTextInput
                 headerName={i18n.DateofBirth}
                 Editable={false}
@@ -44,8 +46,13 @@ export default function AddBio() {
                 placeholder="01/01/2000"
               />
             </View>
-            <View style={{marginTop: 10}}>
-              <ButtonComponent buttonName={i18n.SaveBio} onPress={() => navigationservice.navigate(screenname.ChatScreen)}/>
+            <View style={{marginTop: pixelSizeVertical(50)}}>
+              <ButtonComponent
+                buttonName={i18n.SaveBio}
+                onPress={() =>
+                  navigationservice.navigate(screenname.ChatScreen)
+                }
+              />
             </View>
           </View>
         </ScrollView>

@@ -13,6 +13,13 @@ import i18n from '../../assests/i18n';
 import popnisfont from '../../assests/popnisfont';
 import navigationservice from '../../navigation/navigationservice';
 import screenname from '../../navigation/screenname';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../../constant';
 
 export default function Welcome() {
   //onGetStarted
@@ -30,14 +37,14 @@ export default function Welcome() {
         source={image.welcomescreen}
         style={[styles.Container, styles.alignItem]}>
         <View style={styles.Box1}>
-          <View style={{marginBottom: 30}}>
+          <View>
             <View style={styles.RoundOfICon}>
               <Image source={image.cartoon} style={styles.icon} />
             </View>
             <Text style={styles.Title}>{i18n.Shori}</Text>
           </View>
-          <View style={{marginVertical: 10}}>
-            <Text style={styles.Title}>{i18n.WelcomeMichael}</Text>
+          <View>
+            <Text style={styles.Title2}>{i18n.WelcomeMichael}</Text>
             <Text style={styles.Description}>
               {i18n.WelcomeScreenDescription}
             </Text>
@@ -56,19 +63,18 @@ export default function Welcome() {
 
 const styles = StyleSheet.create({
   Container: {
-    height: '100%',
-    width: '100%',
+    flex: 1,
   },
   alignItem: {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   RoundOfICon: {
-    height: 100,
-    width: 100,
+    height: heightPixel(100),
+    width: heightPixel(100),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: heightPixel(30),
     backgroundColor: 'white',
   },
   Box1: {
@@ -80,29 +86,37 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    paddingBottom: pixelSizeVertical(40),
   },
   icon: {
-    height: 62,
-    width: 60,
+    height: heightPixel(64),
+    width: heightPixel(61),
   },
   Title: {
-    fontSize: 34,
+    fontSize: fontPixel(34),
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'white',
+    marginTop: pixelSizeVertical(18),
+  },
+  Title2: {
+    fontSize: fontPixel(24),
+    fontFamily: popnisfont.PoppinsSemiBold,
+    color: 'white',
+    marginTop: pixelSizeVertical(68),
+    alignSelf: 'center',
   },
   Description: {
-    fontSize: 12,
+    fontSize: fontPixel(14),
     fontFamily: popnisfont.PoppinsRegular,
     color: 'white',
     alignSelf: 'center',
     textAlign: 'center',
     letterSpacing: 1,
-    // marginVertical: 10,
+    marginTop: pixelSizeVertical(10),
   },
   Button: {
-    height: 50,
-    width: 320,
-    marginBottom: 50,
+    height: heightPixel(70),
+    width: widthPixel(374),
     alignSelf: 'center',
     borderRadius: 10,
     alignItems: 'center',
@@ -112,13 +126,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   ButtonName: {
-    fontSize: 16,
+    fontSize: fontPixel(18),
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'white',
   },
   rightArrow: {
-    height: 10,
-    width: 20,
-    marginLeft: 4,
+    height: heightPixel(10),
+    width: heightPixel(20),
+    marginLeft: pixelSizeHorizontal(4),
   },
 });

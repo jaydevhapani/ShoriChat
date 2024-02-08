@@ -10,6 +10,7 @@ import {
 import image from '../assests/image';
 import i18n from '../assests/i18n';
 import popnisfont from '../assests/popnisfont';
+import {heightPixel, pixelSizeHorizontal, widthPixel} from '../constant';
 
 const RnLockSwitch = () => {
   const [isToggled, setToggled] = useState(false);
@@ -38,7 +39,11 @@ const RnLockSwitch = () => {
             {backgroundColor: isToggled ? '#5A5FEA' : '#ddd'},
           ]}>
           {isToggled && (
-            <Text style={[styles.label, {color: 'white', left : 10}]}>
+            <Text
+              style={[
+                styles.label,
+                {color: 'white', left: pixelSizeHorizontal(10)},
+              ]}>
               {i18n.Lock}
             </Text>
           )}
@@ -50,7 +55,11 @@ const RnLockSwitch = () => {
             />
           </Animated.View>
           {!isToggled && (
-            <Text style={[styles.label, {right: 10, color: '#5A5FEA'}]}>
+            <Text
+              style={[
+                styles.label,
+                {right: pixelSizeHorizontal(10), color: '#5A5FEA'},
+              ]}>
               {i18n.Unlock}
             </Text>
           )}
@@ -66,30 +75,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   toggleButton: {
-    width: 150,
-    height: 60,
-    borderRadius: 50,
+    width: heightPixel(143),
+    height: heightPixel(54),
+    borderRadius: heightPixel(50),
     backgroundColor: '#ddd',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 4,
+    paddingHorizontal: pixelSizeHorizontal(4),
     flexDirection: 'row',
   },
   thumb: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: heightPixel(44),
+    height: heightPixel(44),
+    borderRadius: heightPixel(25),
     backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
   },
   imageStyle: {
-    width: 30,
-    height: 30,
+    width: heightPixel(30),
+    height: heightPixel(30),
     tintColor: '#5A5FEA',
   },
   label: {
-    fontSize: 18,
+    fontSize: heightPixel(18),
     color: 'white',
     fontFamily: popnisfont.PoppinsSemiBold,
     textTransform: 'capitalize',
