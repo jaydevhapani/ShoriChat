@@ -43,7 +43,7 @@ const ContactDetails = [
     name: 'Hans Watson',
     isOnline: false,
     lastMessage:
-      'Yes, I purchased it yesterday , so how are you , all about your job is ok?',
+      'Yes, I purchased it yesterday , so how are you , all about your job is ok? i am ok with my frd you can continue. i am ok i am ok i amok 755786576576',
     isPin: true,
     messageCount: 2,
     isSend: true,
@@ -310,7 +310,7 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
           />
           {props.item.isDelete && (
             <View>
-              <Image source={image.rightMark} style={{height: 30, width: 30}} />
+              <Image source={image.rightMark} style={{height: heightPixel(30), width: heightPixel(30)}} />
             </View>
           )}
         </View>
@@ -345,7 +345,7 @@ export const _MemorizedChatScreens = React.memo((props: ChatProps) => {
           <View
             style={{
               flexDirection: 'row',
-              width: '86%',
+              width: widthPixel(250),
             }}>
             {props.item.isSend && (
               <Image

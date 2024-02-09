@@ -4,6 +4,7 @@ import commanStyle from '../constant/commanStyle';
 import ProfileImage from './profileImage';
 import popnisfont from '../assests/popnisfont';
 import image from '../assests/image';
+import { fontPixel, heightPixel, pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../constant';
 
 
 
@@ -27,7 +28,7 @@ const UserSettingProfileBox = (props: ProfilePros) => {
           <Text style={styles.bdate}>20 Otc, 1999</Text>
           <Image
             source={image.gift}
-            style={{height: 32, width: 32, marginLeft: 10}}
+            style={{height: heightPixel(32), width: heightPixel(32), marginLeft: pixelSizeHorizontal(10)}}
           />
         </View>
       </View>
@@ -42,41 +43,41 @@ export default UserSettingProfileBox;
 
 const styles = StyleSheet.create({
   Container: {
-    height: 340,
-    width: 374,
+    height: heightPixel(340),
+    width: widthPixel(374),
     justifyContent: 'flex-end',
   },
   ChildContainer: {
-    height: 228,
-    width: 374,
+    height: heightPixel(228),
+    width: widthPixel(374),
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: 30,
+    paddingBottom: pixelSizeVertical(30),
     backgroundColor: 'white',
-    borderRadius: 20,
-    marginBottom: 20,
+    borderRadius: heightPixel(20),
+    marginBottom: pixelSizeVertical(20),
     ...commanStyle.boxShadow,
   },
   viewStyle: {
-    borderWidth: 3,
+    borderWidth: heightPixel(3),
     borderColor: 'white',
   },
   Name: {
-    fontSize: 24,
+    fontSize: fontPixel(24),
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'black',
   },
   About: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     fontFamily: popnisfont.PoppinsRegular,
     color: 'black',
   },
   bdate: {
-    fontSize: 16,
+    fontSize: fontPixel(16),
     fontFamily: popnisfont.PoppinsRegular,
     color: 'black',
     textAlignVertical: 'center',
-    top: 4,
+    top: pixelSizeVertical(4),
   },
 
 });

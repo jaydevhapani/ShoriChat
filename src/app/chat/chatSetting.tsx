@@ -13,6 +13,13 @@ import i18n from '../../assests/i18n';
 import UserSettingProfileBox from '../../component/userSettingProfileBox';
 import image from '../../assests/image';
 import popnisfont from '../../assests/popnisfont';
+import {
+  fontPixel,
+  heightPixel,
+  pixelSizeHorizontal,
+  pixelSizeVertical,
+  widthPixel,
+} from '../../constant';
 
 const OtherData = [
   {
@@ -47,11 +54,14 @@ const ChatSetting = () => {
       style={[commanStyle.Container, {backgroundColor: '##f1f1fc'}]}>
       <AuthHeader title={i18n.ChatSettings} />
       <ScrollView style={[commanStyle.flex, {backgroundColor: '##f1f1fc'}]}>
-        <View style={{alignSelf: 'center', marginTop: 20}}>
-          <UserSettingProfileBox isEditImage/>
+        <View style={{alignSelf: 'center', marginTop: pixelSizeVertical(20)}}>
+          <UserSettingProfileBox isEditImage />
         </View>
         <View
-          style={[styles.OtherDetails, {alignSelf: 'center', marginTop: 30}]}>
+          style={[
+            styles.OtherDetails,
+            {alignSelf: 'center', marginTop: pixelSizeVertical(30)},
+          ]}>
           {OtherData &&
             OtherData.map((item, index) => {
               return (
@@ -60,7 +70,7 @@ const ChatSetting = () => {
                     <Image
                       source={item.icon}
                       style={[
-                        {height: 26, width: 26},
+                        {height: heightPixel(26), width: heightPixel(26)},
                         index == 0 && {tintColor: '#5A5FEA'},
                       ]}
                     />
@@ -68,7 +78,7 @@ const ChatSetting = () => {
                   </View>
                   <Image
                     source={image.rightArow}
-                    style={{height: 30, width: 30}}
+                    style={{height: heightPixel(30), width: heightPixel(30)}}
                   />
                 </View>
               );
@@ -83,25 +93,25 @@ export default ChatSetting;
 
 const styles = StyleSheet.create({
   OtherDetails: {
-    width: 374,
+    width: widthPixel(374),
     backgroundColor: 'white',
-    borderRadius: 20,
-    marginBottom: 20,
-    paddingVertical: 10,
+    borderRadius: heightPixel(20),
+    marginBottom: pixelSizeVertical(20),
+    paddingVertical: pixelSizeVertical(10),
     ...commanStyle.boxShadow,
   },
   box: {
-    height: 30,
+    height: heightPixel(30),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginVertical: 6,
-    paddingHorizontal: 10,
+    marginVertical: pixelSizeVertical(10),
+    paddingHorizontal: pixelSizeHorizontal(10),
   },
   Name: {
-    fontSize: 18,
+    fontSize: fontPixel(18),
     fontFamily: popnisfont.PoppinsRegular,
     color: 'black',
-    marginLeft: 10,
+    marginLeft: pixelSizeHorizontal(10),
   },
 });

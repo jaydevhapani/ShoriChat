@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   title: {
-    fontSize: fontPixel(20),
+    fontSize: fontPixel(18),
     fontFamily: popnisfont.PoppinsSemiBold,
     color: 'white',
   },

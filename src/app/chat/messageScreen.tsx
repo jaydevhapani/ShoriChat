@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
     marginVertical: pixelSizeVertical(10),
     paddingHorizontal: pixelSizeHorizontal(10),
     borderRadius: heightPixel(50),
-    width: widthPixel(390),
+    width: widthPixel(365),
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
     fontSize: fontPixel(12),
   },
   ChatBox: {
-    height: heightPixel(64),
+    // height: heightPixel(64),
     paddingVertical: 6,
     width: widthPixel(390),
     borderWidth: heightPixel(1),

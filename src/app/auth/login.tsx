@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: pixelSizeHorizontal(10),
+    paddingHorizontal: pixelSizeHorizontal(8),
   },
   InputView: {
     height: heightPixel(70),
