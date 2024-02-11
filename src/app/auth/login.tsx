@@ -1,7 +1,10 @@
 import {
   Image,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -32,71 +35,80 @@ export default function Login() {
     <SafeAreaView style={commanStyle.Container}>
       <AuthHeader />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={[commanStyle.flex, commanStyle.ph14]}>
-          <HeaderTeam
-            title={i18n.EnterPhoneNumber}
-            description={i18n.LoginDescription}
-          />
-          <View style={styles.writeView}>
-            <View style={styles.selectView}>
-              <Image
-                source={image.Flag}
-                style={{height: heightPixel(44), width: heightPixel(44)}}
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={
+            Platform.OS == 'android'
+              ? pixelSizeVertical(30)
+              : pixelSizeVertical(100)
+          } // Pass the calculated height
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+            <View style={[commanStyle.flex, commanStyle.ph14]}>
+              <HeaderTeam
+                title={i18n.EnterPhoneNumber}
+                description={i18n.LoginDescription}
               />
-              <Image
-                source={image.CountySelect}
-                style={{height: heightPixel(10), width: heightPixel(16)}}
-              />
-            </View>
-            <View style={styles.InputView}>
-              <TextInput
-                style={styles.TextInput}
-                value={number}
-                keyboardType="number-pad"
-                maxLength={10}
-                placeholder="+91"
-                placeholderTextColor={'black'}
-                onChange={e => setNumber(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
-          <View>
-            <ButtonComponent
-              buttonName={i18n.SendOtp}
-              onPress={() => navigationservice.navigate(screenname.OtpEnter)}
-            />
-          </View>
-          <View style={styles.ConditionsView}>
-            <View
-              style={{
-                height: 'auto',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: fontPixel(14),
-                  fontFamily: popnisfont.PoppinsRegular,
-                }}>
-                Read Our{' '}
-                <Text
+              <View style={[styles.writeView]}>
+                <View style={styles.selectView}>
+                  <Text style={styles.CountryCodeText}>+91</Text>
+                  <Image
+                    source={image.CountySelect}
+                    style={{height: heightPixel(10), width: heightPixel(16)}}
+                  />
+                </View>
+                <View style={styles.InputView}>
+                  <TextInput
+                    style={styles.TextInput}
+                    value={number}
+                    keyboardType="number-pad"
+                    maxLength={10}
+                    placeholder="Enter Your Phone Number"
+                    placeholderTextColor={'gray'}
+                    onChange={e => setNumber(e.nativeEvent.text)}
+                  />
+                </View>
+              </View>
+              <View style={{marginTop: pixelSizeVertical(48)}}>
+                <ButtonComponent
+                  buttonName={i18n.SendOtp}
+                  onPress={() =>
+                    navigationservice.navigate(screenname.OtpEnter)
+                  }
+                />
+              </View>
+              <View style={styles.ConditionsView}>
+                <View
                   style={{
-                    color: '#5A5FEA',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
                   }}>
-                  Privacy Policy
-                </Text>{' '}
-                Tab Agree & Continue To accept the{' '}
-                <Text
-                  style={{
-                    color: '#5A5FEA',
-                  }}>
-                  Terms Of Service
-                </Text>
-              </Text>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: fontPixel(14),
+                      fontFamily: popnisfont.PoppinsRegular,
+                    }}>
+                    Read Our{' '}
+                    <Text
+                      style={{
+                        color: '#5A5FEA',
+                      }}>
+                      Privacy Policy
+                    </Text>{' '}
+                    Tab Agree & Continue To accept the{' '}
+                    <Text
+                      style={{
+                        color: '#5A5FEA',
+                      }}>
+                      Terms Of Service
+                    </Text>
+                  </Text>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
@@ -108,10 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginTop: pixelSizeVertical(36),
-    flex: 1,
   },
   ConditionsView: {
-    flex: 2.5,
+    height: heightPixel(250),
     marginBottom: pixelSizeVertical(40),
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: pixelSizeHorizontal(8),
+    paddingHorizontal: pixelSizeHorizontal(10),
   },
   InputView: {
     height: heightPixel(70),
@@ -141,8 +152,13 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     height: heightPixel(60),
-    backgroundColor: 'white',
     borderRadius: heightPixel(16),
     paddingHorizontal: pixelSizeHorizontal(10),
+    fontFamily: popnisfont.PoppinsRegular,
+  },
+  CountryCodeText: {
+    fontFamily: popnisfont.PoppinsRegular,
+    color: 'black',
+    fontSize: fontPixel(16),
   },
 });

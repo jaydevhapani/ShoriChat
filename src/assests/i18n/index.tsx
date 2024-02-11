@@ -1,6 +1,6 @@
 export default {
     Shori : 'Shori',
-    WelcomeMichael : 'Welcome Michael!',
+    WelcomeMichael : 'Welcome',
     WelcomeScreenDescription  :'We connect you with family and friends.\nStart chatting now!',
     GetStarted : 'Get Started',
     EnterPhoneNumber : 'Enter Your Phone Number',
